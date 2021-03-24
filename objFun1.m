@@ -12,11 +12,8 @@ end
 
 x = x / 100;
 
-
 T = zeros(size(N));
-
-
-add = [2 4 6 8 9 10 11 12];
+%add = [2 4 6 8 9 10 11 12];
 T(1,:) = N(1,:) - x(1,:);
 T(2,:) = N(2,:);
 T(3,:) = N(3,:) - x(2,:);
@@ -30,9 +27,12 @@ T(10,:) = N(10,:) - x(6,:);
 T(11,:) = N(11,:) - x(7,:);
 T(12,:) = N(11,:) - x(8,:);
 T(13,:) = N(9,:) - x(9,:);
-T(14,:) = N(10,:) - x(10,:);
-T(15,:) = N(11,:) - x(11,:);
-T(16,:) = N(11,:) - x(12,:);
+%T(14,:) = N(10,:) - x(10,:);
+%T(15,:) = N(11,:) - x(11,:);
+%T(16,:) = N(11,:) - x(12,:);
+T(14,:) = T(13,:);
+T(15,:) = T(13,:);
+T(16,:) = T(13,:);
 
 % Finner stress og displacement for ny matrise
 [sE, dN] = FEM_truss(T,E, extF,extC);
@@ -40,10 +40,17 @@ T(16,:) = N(11,:) - x(12,:);
 maxE = maxEdgeLng(E,T);
 
 nedBoy = dN(13,3) + dN(14,3) + dN(15,3) + dN(16,3)
-%nedBoy = dN(11,3) + dN(12,3);
+%nedBoy = dN(16,3);
 
-%obj = nedBoy;
-%obj = maxE;
+%temp;
+%if T(13:,3) == T(14:,3) == T(15:,3) == T(16:,3)
+%    temp = 1*nedBoy + 0.001*maxE;
+%else
+%    temp = 1/(1*nedBoy + 0.001*maxE);
+%end
+
+
+%obj = temp
 obj = 1*nedBoy + 0.001*maxE;
 
 end
