@@ -1,7 +1,5 @@
 global N;
 global E;
-global extC; 
-global extF;
 
 N = [1.000000 1.000000 2.014852
      1.000000 1.000000 0.014852
@@ -77,7 +75,7 @@ coStruct.suportRadius = 15;   % Bredden på supportvegg under rør i voksler,  hvi
 coStruct.minSuportAng = 80;   % Grader
 coStruct.rotaType = 1;        % 1: gir max min edge vinkler mot XY planet (godt hulltak). 2: legger ned 2 edger i XY planet
 coStruct.layerThickness = 0.2;% Oppgitt i mm, for printeren, gir vox sidekant dim
-vGdim = 2040;                  % Størrelse på vG rommet der hjørnet blir laget, må være stort nok, men ikke for stort (tregt)
+vGdim = 500;                  % Størrelse på vG rommet der hjørnet blir laget, må være stort nok, men ikke for stort (tregt)
                               % (Ingen forhåndssjekk på om det er stort nok)
 
 
