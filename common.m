@@ -1,7 +1,8 @@
 % Defining the Golden Ratio
 % Using the lowest positive value
 global gR;
-gR = round(((1 + sqrt(5))/2),DA);
+%gR = round(((1 + sqrt(5))/2));
+gR =  (1 + sqrt(5))/2;
 
 % Definerer plassering av noder
 global N;

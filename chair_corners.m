@@ -82,7 +82,7 @@ vGdim = 500;                  % Størrelse på vG rommet der hjørnet blir laget, m
 % Lager første hjørne
 vG = zeros(vGdim, vGdim, vGdim, 'int8');
 nodeNr = 1; % Noden vi lager hjørne rundt
-[vG, Ecut] = mesh2voxCorner(vG, N, E, nodeNr, coStruct);
+[vG,Ecut] = mesh2voxCorner(vG, N, E, nodeNr, coStruct);
 figure(2); clf;plotVg_safe(vG, 'edgeOff');
 plotVgBoundingBox(vG); % Sjekker om størrelsen på vG er fornuftig
 EcutTotal(:,1) = Ecut;  % Avkortning mot hjørnet på alle edger, samles i 2d array
