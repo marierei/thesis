@@ -5,7 +5,7 @@ global gR;
 gR =  (1 + sqrt(5))/2;
 
 % Definerer plassering av noder
-global N;
+%global N;
 N = [1.000000 1.000000 2.014852
      1.000000 1.000000 0.014852
      1.000000 -1.000000 2.014852
@@ -25,7 +25,7 @@ N = [1.000000 1.000000 2.014852
 
  
 % Kobler sammen noder for å få struktur
-global E;
+%global E;
 E = [1 2    % Heigths lowest level
      3 4
      5 6
@@ -90,7 +90,7 @@ radius = 0.003;       % Meter
 E(:,3) = pi*radius^2;  % Arealer
 
 
-global extC;
+%global extC;
 % Spesifiserer hvilke noder som er låst og i hvilke retninger
 % 1 er fri og 0 er låst
 extC = [1 1 1
@@ -114,7 +114,7 @@ extC = [1 1 1
     1 1 1];
 
 
-global extF;
+%global extF;
 % Spesifiserer kreftene påført hver node og retning
 % Her kun én node som blir påført en kraft, z-retningen
 extF = [0 0 0
