@@ -4,7 +4,7 @@ global extC;
 global extF;
 global gR;
 
-N = [0 0 0
+M = [0 0 0
      0 0 1
      0 1 0
      0 1 1
@@ -13,7 +13,7 @@ N = [0 0 0
      1 1 0
      1 1 1];
 
-E = [1 2
+F = [1 2
      3 4
      4 1
      2 3
@@ -23,7 +23,7 @@ E = [1 2
      7 8];
 
 % 1 er fri og 0 er låst
-extC = [0 0 0
+xtC = [0 0 0
         0 0 0
         0 0 0
         0 0 0
@@ -33,7 +33,7 @@ extC = [0 0 0
         0 0 0];
 
 % Krefter
-extF = [0 0 0
+xtF = [0 0 0
         0 0 0
         0 0 0
         0 0 0
@@ -51,11 +51,11 @@ E(:,3) = pi*radius^2;  % Arealer
 % Kjører FEM-simulator med stress på gitte noder
 % Får stress edge array og displacement node array som brukes til videre
 % plotting
-[sE, dN] = FEM_truss(N,E, extF,extC);
+[sE, dN] = FEM_truss(E,N, extF,extC);
 
 % Sammenligner dN med N for å få forflytning
 % Skalerer opp med 100 for å faktisk se forflytning
-figure(1);clf;plotMesh(N,E,'txt'); % Opprinnelig mesh
+figure(1);clf;plotMesh(E,N,'txt'); % Opprinnelig mesh
 
 %visuellScale = 100; % Vi vil visuelt skalere opp forflytningene for de er små
 %hold on;plotMesh(N-visuellScale*dN,E, 'col',[1 0 0]); % Mesh med nodeforflytninger i rød farge

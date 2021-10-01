@@ -26,7 +26,7 @@ rodRadius = 8.0e-3;
 rodArea = pi*rodRadius^2;   % Tverrsnittareal
 E(:,3) = rodArea;
 
-figure(1);clf;plotMesh(N,E,'txt');
+figure(1);clf;plotMesh(E,N,'txt');
 
 coStruct = [];  % Corner struct for å samle alle instillinger
 coStruct.wallT = 2; % mm, gjørne veggtykkelse

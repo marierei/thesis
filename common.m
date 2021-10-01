@@ -1,7 +1,7 @@
-%global N;
-%global E;
-%global extC;
-%global extF;
+global N;
+global E;
+global extC;
+global extF;
 %global gR;
 
 % Defining the Golden Ratio
