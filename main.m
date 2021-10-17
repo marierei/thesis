@@ -1,230 +1,165 @@
+% Initialiserer globale variabler
 global N;
 global E;
-global extC; 
-global extF;
-global gR;
-
-N = [1.000000 1.000000 2.014852
-     1.000000 1.000000 0.014852
-     1.000000 -1.000000 2.014852
-     1.000000 -1.000000 0.014852
-     -1.000000 1.000000 2.014852
-     -1.000000 1.000000 0.014852
-     -1.000000 -1.000000 2.014852
-     -1.000000 -1.000000 0.014852
-     0.991815 0.981793 3.632980
-     0.991815 -1.018207 3.632980
-     -1.008185 0.981793 3.632980
-     -1.008185 -1.018207 3.632980
-     0.986484 0.983935 3.841092
-     0.986484 -1.016066 3.841092
-     -1.013515 0.983935 3.841092
-     -1.013515 -1.016066 3.841092];
-
- 
-% Kobler sammen noder for å få struktur
-global E;
-E = [12 15
-     11 16
-     1 2
-     8 7
-     3 4
-     5 6
-     3 7
-     1 3
-     11 13
-     7 5
-     5 1
-     9 15
-     10 12
-     9 10
-     12 11
-     11 9
-     1 9
-     11 5
-     7 12
-     10 3
-     14 16
-     13 14
-     16 15
-     15 13
-     12 16
-     14 10
-     9 13
-     15 11
-     12 14
-     10 16
-     9 14
-     10 13
-     13 16
-     9 12
-     14 15
-     10 11
-     12 13
-     9 16
-     11 14
-     10 15
-     3 9
-     2 3
-     2 5
-     1 11
-     3 11
-     7 10
-     4 7
-     5 8
-     7 11
-     7 9
-     1 8];
-
-
-% Spesifiserer arealtverrsnitt og stivhet for E
-radius = 0.003;       % Meter
-E(:,3) = pi*radius^2;  % Arealer
-
 global extC;
-% Spesifiserer hvilke noder som er låst og i hvilke retninger
-% 1 er fri og 0 er låst
-extC = [1 1 1
-    0 0 0
-    1 1 1
-    0 0 0
-    
-    1 1 1
-    0 0 0
-    1 1 1
-    0 0 0
-    
-    1 1 1
-    1 1 1
-    1 1 1
-    1 1 1
-    
-    1 1 1
-    1 1 1
-    1 1 1
-    1 1 1];
-
 global extF;
-% Spesifiserer kreftene påført hver node og retning
-% Her kun én node som blir påført en kraft, z-retningen
-extF = [0 0 0
-    0 0 0
-    0 0 0
-    0 0 0
-    
-    0 0 0
-    0 0 0
-    0 0 0
-    0 0 0
-    
-    0 0 0
-    0 0 0
-    0 0 0
-    0 0 0
-    
-    0 0 15
-    0 0 15
-    0 0 15
-    0 0 15];
+global T;
+global nedboyArray;
 
-% Kjører FEM-simulator med stress på gitte noder
-% Får stress edge array og displacement node array som brukes til videre
-% plotting
-[sE, dN] = FEM_truss(N,E, extF,extC);
+% Noder
+% Dimensjoner i meter, skalerer ned til desimeter senere
+N = [2 2 2
+     3 2 2
+     2 3 2
+     3 3 2
+     
+     2 2 3
+     3 2 3
+     2 3 3
+     %2.2 3.1 2.8
+     3 3 3
+     
+     2 2 4
+     3 2 4
+     2 3 4
+     3 3 4];
 
-% Sammenligner dN med N for å få forflytning
-% Skalerer opp med 100 for å faktisk se forflytning
-%figure(1);clf;plotMesh(N,E,'txt'); % Opprinnelig mesh
+N = N/10;
 
-visuellScale = 100; % Vi vil visuelt skalere opp forflytningene for de er små
-hold on;plotMesh(N-visuellScale*dN,E, 'col',[1 0 0]); % Mesh med nodeforflytninger i rød farge
-hold on;plotMeshCext(N,extC,100);
-hold on;plotMeshFext(N-visuellScale*dN,extF, 0.01);
-%view([-120 10]);
+% Edges, kanter
+ E = [%2 1
+      %3 1
+      %4 3
+      %4 2
+      %4 1
+      5 1
+      5 3
+      6 2
+      6 1
+      6 4
+      6 5
+      7 3
+      7 5
+      8 4
+      8 3
+      8 7
+      8 6
+      8 5
+      
+      9 5
+      9 6
+      9 7
+      9 10
+      9 11
+      10 6
+      10 11
+      10 12
+      11 7
+      11 12
+      12 8
+      12 6
+      12 7];
+
+radius = 0.03  % Radius lik 3 mm
+E(:,3) = pi*radius^2;
+
+extC = [0 0 0   0 0 0
+        0 0 0   0 0 0
+        0 0 0   0 0 0
+        0 0 0   0 0 0
+        
+        1 1 1   0 0 0
+        1 1 1   0 0 0
+        1 1 1   0 0 0
+        1 1 1   0 0 0
+        
+        1 1 1   0 0 0
+        1 1 1   0 0 0
+        1 1 1   0 0 0
+        1 1 1   0 0 0];
+
+extF = [0 0 0   0 0 0
+        0 0 0   0 0 0
+        0 0 0   0 0 0
+        0 0 0   0 0 0
+        
+        0 0 0   0 0 0
+        0 0 0   0 0 0
+        0 0 0   0 0 0
+        0 0 0   0 0 0
+        
+        0 12 20   0 0 0
+        0 12 20   0 0 0
+        0 0 0   0 0 0
+        0 0 0   0 0 0];
+
+% Plotter mesh med nodenr, edgenr, constrainede noder og eksterne krefter
+clf;
+plotMesh(E, N, 'txt');
+hold on;
+%plotMeshCext(N, extC, 'ballRadius', 100);   % Blå kuler for låste noder
+%plotMeshFext(N, extF, 'vecPlotScale', 0.001); % Kraftvektorer, 0.001 skalerer ned vektorene for å passe grafen
 
 
-% Finner nedbøyning av topplaten i z-planet
+
+% Kjøring av simulatoren
+% sE - stress edge array, hvor mye stress/trykk det er på hver edge
+% dN - displacement node array, hvor mye hver node har flyttet seg pga
+% stresset, trekkes fra opprinnelige N-posisioner for nye posisjoner
+[sE, dN] = FEM_frame(N, E, extF, extC);
+
+% Plotter resultatet
+%clf;
+%plotMesh(E, N, 'lThick',1, 'col',[0.4 0.4 1], 'lThick', 2); % Opprinnelig mesh i blå farge, tynne linjer
+visuellScale = 100;    % Skalerer opp forflytningen
+%hold on;
+%plotMesh(E, N-visuellScale*dN(:,1:3), 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
+%plotMeshCext(N, extC, 'ballRadius',100);
+%plotMeshFext(N-visuellScale*dN(:,1:3), extF, 'vecPlotScale',0.001);
+%hold on;
+
+noSec = 30;
+rad = 0.002; % Radius
+%[Fp,Np] = mesh2openQuadPoly(E, N-visuellScale*dN(:,1:3), rad, noSec, 'scaleSphere', 1.2);
+%clf; plotPoly(Fp,Np, 'edgeOff');
+
+
+global nedboyArray;
+nedboyArray = [];
+
+
+
+% Finner total nedbøyning av topplaten i z-planet ved å bruke node displacement
+% Ønsker å minimere denne
 global nedBoy;
-nedBoy = dN(13,3) + dN(14,3) + dN(15,3) + dN(16,3)
+nedBoy = dN(9,3) + dN(10,3) + dN(11,3) + dN(12,3)
 
-counter = 0;
+% Setter inn noden som skal flyttes i et array
+noderFlytt(1,:) = N(7,:)
 
-% Finner ulåste noder
-for i=1 : size(N,1)
-    if extC(i,:) == [1 1 1]
-        counter = counter + 1;
-        noderFlytt(counter,:) = N(i,:);
-    end
-end
+% Finne nodene som flyttes nedover
+% Dette må gjøres penere
+ned = [N(9,:); N(10,:)]
+T = N;
+nedover = @objFun1;
 
-counter
-
-nedover = @objFun1
-
-
-% Running sumulated annealing
-lb = 0.1 * [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
-ub = 0.1 * [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1];
+% Simulated annealing - blå
+lb = [noderFlytt - 0.05];
+ub = [noderFlytt + 0.05];
 [x,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
+plotMesh(E, T, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i blå farge
+hold on;
+
+% General algotithm - rød
+lb = [noderFlytt - 0.05];
+ub = [noderFlytt + 0.05];
+x = ga(nedover,3, [], [], [], [], lb, ub)
+plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
+hold on;
+
+nedboyArray
+
+% TODO: Lage vG og finne hva denne funksjonen egentlig gjør
+%[E, N, vGvokselNr] = vox2mesh12(vG)
 
 
-% New array for the truss
-T = zeros(size(N));
-
-
-T(1,:) = N(1,:) - x(1,:);
-T(2,:) = N(2,:);
-T(3,:) = N(3,:) - x(2,:);
-T(4,:) = N(4,:);
-T(5,:) = N(5,:) - x(3,:);
-T(6,:) = N(6,:);
-T(7,:) = N(7,:) - x(4,:);
-T(8,:) = N(8,:);
-T(9,:) = N(9,:) - x(5,:);
-T(10,:) = N(10,:) - x(6,:);
-T(11,:) = N(11,:) - x(7,:);
-T(12,:) = N(11,:) - x(8,:);
-T(13,:) = N(9,:) - x(9,:);
-T(14,:) = N(10,:) - x(10,:);
-T(15,:) = N(11,:) - x(11,:);
-T(16,:) = N(11,:) - x(12,:);
-
-[sE, dN] = FEM_truss(T,E, extF,extC);
-nedBoy = dN(13,3) + dN(14,3) + dN(15,3) + dN(16,3)
-
-
-% Forflytning for å få ny mest
-%figure(2);clf;plotMesh(N,E); % Opprinnelig mesh
-
-%visuellScale = 100; % Vi vil visuelt skalere opp forflytningene for de er små
-%figure(1);clf;plotMeshFext(N,E);
-
-%hold on;plotMesh(N,E, 'col',[1 0 0],'txt'); % Mesh med nodeforflytninger i rød farge
-%hold on;plotMeshCext(N,extC,100);
-%hold on;plotMeshFext(N,extF, 0.01);
-%[V,F] = mesh2poly2(N,E,0.015,20); % radius, antall plygonsider
-%figure(1);clf;plotPoly(N,E,'edgeOff');
-%view([-120 10]);sun1;
-%view([-120 10]);
-
-
-
-hold on;plotMesh(T,E, 'col',[1 0 0],'txt'); % Mesh med nodeforflytninger i rød farge
-hold on;plotMeshCext(N,extC,100);
-hold on;plotMeshFext(N,extF, 0.01);
-[V,F] = mesh2poly2(N,E,0.015,20); % radius, antall plygonsider
-figure(2);clf;plotPoly(F,V,'edgeOff');
-view([-120 10]);sun1;
-view([-120 10]);
-
-
-
-
-%hold on;plotMesh(T,E, 'col',[1 0 0],'txt'); % Mesh med nodeforflytninger i rød farge
-%hold on;plotMeshCext(N,extC,100);
-%hold on;plotMeshFext(T,extF, 0.01);
-%[V,F] = mesh2poly2(T,E,0.015,20); % radius, antall plygonsider
-%figure(2);clf;plotPoly(F,V,'edgeOff');
-%view([-120 10]);sun1;
-%view([-120 10]);
-%saveFigToTurntableAnimGif('truss.gif','ant',50);

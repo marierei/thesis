@@ -1,57 +1,45 @@
 function obj = objFun1(x)
+% Følgende format er nødvendig på objektivfunksjonen for å kunne inludere
+% den i flere av Matlabs optimaliseringsalgoritmer som vi kan bruke.
 
+% x er en 1-dim vektor som inneholder alle xyz-posisjons-justeringer på de nodene som
+% vi vil justere under optimaliseringen. 
+
+% Resultatet fra funksjonen må kun være en skalar 
+% Her er din kode som inneholder obj = 1*nedBoy + 0.001*maxE
+% Definerer global variabel i dette scopet
 global N;
 global E;
 global extF;
 global extC;
+global nedboyArray;
+global T;
 
 
-for i = 1 : size(x,1)
-    x(i,:) = rand(1,3);
-end
+%T(1,:) = N(1,:);
+%T(2,:) = N(2,:);
+%T(3,:) = N(3,:);
+%T(4,:) = N(4,:);
+%T(5,:) = N(5,:);
+%T(6,:) = N(6,:);
+T(7,:) = x;
+%T(8,:) = N(8,:);
+%T(9,:) = N(9,:);
+%T(10,:) = N(10,:);
+%T(11,:) = N(11,:);
+%T(12,:) = N(12,:);
 
-x = x / 100;
-
-T = zeros(size(N));
-add = [2 4 6 8 9 10 11 12];
-T(1,:) = N(1,:) - x(1,:);
-T(2,:) = N(2,:);
-T(3,:) = N(3,:) - x(2,:);
-T(4,:) = N(4,:);
-T(5,:) = N(5,:) - x(3,:);
-T(6,:) = N(6,:);
-T(7,:) = N(7,:) - x(4,:);
-T(8,:) = N(8,:);
-T(9,:) = N(9,:) - x(5,:);
-T(10,:) = N(10,:) - x(6,:);
-T(11,:) = N(11,:) - x(7,:);
-T(12,:) = N(11,:) - x(8,:);
-T(13,:) = N(9,:) - x(9,:);
-%T(14,:) = N(10,:) - x(10,:);
-%T(15,:) = N(11,:) - x(11,:);
-%T(16,:) = N(11,:) - x(12,:);
-T(14,:) = T(13,:);
-T(15,:) = T(13,:);
-T(16,:) = T(13,:);
 
 % Finner stress og displacement for ny matrise
-[sE, dN] = FEM_truss(T,E, extF,extC);
+%[sE, dN] = FEM_truss(T,E, extF,extC);
+[sE, dN] = FEM_frame(T, E, extF, extC);
 
 maxE = maxEdgeLng(E,T);
 
-nedBoy = dN(13,3) + dN(14,3) + dN(15,3) + dN(16,3)
-%nedBoy = dN(16,3);
-
-%temp;
-%if T(13:,3) == T(14:,3) == T(15:,3) == T(16:,3)
-%    temp = 1*nedBoy + 0.001*maxE;
-%else
-%    temp = 1/(1*nedBoy + 0.001*maxE);
-%end
-
-%nedBoy = dN(11,3) + dN(12,3);
-
-%obj = temp
+nedBoy = dN(9,3) + dN(10,3) + dN(11,3) + dN(12,3);
+nedboyArray = [nedboyArray nedBoy];
+%obj = nedBoy;
+%obj = maxE;
 obj = 1*nedBoy + 0.001*maxE;
 
 end
