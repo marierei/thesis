@@ -1,0 +1,1 @@
+function golden_ratio
