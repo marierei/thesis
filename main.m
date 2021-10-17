@@ -3,6 +3,7 @@ global E;
 global extC; 
 global extF;
 global gR;
+sdflkjsldfho
 
 N = [1.000000 1.000000 2.014852
      1.000000 1.000000 0.014852
@@ -162,7 +163,7 @@ counter
 nedover = @objFun1
 
 
-% Running sumulated annealing
+% Running simulated annealing
 lb = 0.1 * [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
 ub = 0.1 * [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1];
 [x,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
