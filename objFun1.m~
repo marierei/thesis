@@ -8,6 +8,7 @@ function obj = objFun1(x)
 % Resultatet fra funksjonen må kun være en skalar 
 % Her er din kode som inneholder obj = 1*nedBoy + 0.001*maxE
 % Definerer global variabel i dette scopet
+global N;
 global E;
 global extF;
 global extC;
@@ -21,8 +22,8 @@ global T;
 %T(4,:) = N(4,:);
 %T(5,:) = N(5,:);
 %T(6,:) = N(6,:);
-%T(7,:) = T(7,:) + x(1,:);
-%T(8,:) = T(8,:) + x(2,:);
+%T(7,:) = T(7,:) - x(1,:);
+%T(8,:) = T(8,:) - x(2,:);
 T(7,:) = x(1,:);
 T(8,:) = x(2,:);
 %T(8,:) = N(8,:);
@@ -36,7 +37,7 @@ T(8,:) = x(2,:);
 %[sE, dN] = FEM_truss(T,E, extF,extC);
 [sE, dN] = FEM_frame(T, E, extF, extC);
 
-maxE = maxEdgeLng(E,T)
+maxE = maxEdgeLng(E,T);
 
 
 
@@ -47,9 +48,9 @@ nedBoy = boyX + boyY + boyZ;
 
 
 %nedBoy = dN(9,3) + dN(10,3) + dN(11,3) + dN(12,3);
-%nedboyArray = [nedboyArray nedBoy];
+nedboyArray = [nedboyArray nedBoy];
 %obj = nedBoy;
-obj = maxE;
-%obj = 1 -1*nedBoy %- 0.005*maxE;
+obj = -maxE;
+%obj = 1*nedBoy + 1*maxE;
 
 end

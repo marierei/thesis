@@ -127,13 +127,15 @@ rad = 0.002; % Radius
 global nedboyArray;
 nedboyArray = [];
 
+
+
 % Finner total nedbøyning av topplaten i z-planet ved å bruke node displacement
 % Ønsker å minimere denne
-%global nedBoy;
+global nedBoy;
 boyX = abs(dN(9,1)) + abs(dN(10,1)) + abs(dN(11,1)) + abs(dN(12,1));
 boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
 boyZ = abs(dN(9,3)) + abs(dN(10,3)) + abs(dN(11,3)) + abs(dN(12,3));
-nedBoy = boyX + boyY + boyZ
+nedBoy = boyX + boyY + boyZ;
 
 % Setter inn noden som skal flyttes i et array
 noderFlytt(1,:) = N(7,:)
@@ -149,63 +151,18 @@ ned = [N(9,:); N(10,:); N(11,:); N(12,:)]
 T = N;
 nedover = @objFun1;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-options = optimoptions('simulannealbnd','PlotFcns',...
-          {@saplotbestx,@saplotbestf,@saplotx,@saplotf});
+%options = optimoptions('simulannealbnd','PlotFcns',...
+%          {@saplotbestx,@saplotbestf,@saplotx,@saplotf});
 
 % Simulated annealing - blå
 lb = [(noderFlytt(1,:) - 0.2) (noderFlytt(2,:) - 0.2)];
 ub = [(noderFlytt(1,:) + 0.2) (noderFlytt(2,:) + 0.2)];
-%lb
-%ub
+lb
+ub
 [x,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
-plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2);
-hold on;
-T
-
-T(7,:) = x(1,:)
-T(8,:) = x(2,:)
-
 plotMesh(E, T, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i blå farge
 hold on;
 fprintf('The best function value found was : %g\n', fval);
-
-x
 
 % General algotithm - rød
 %lb = [noderFlytt - 0.05];
