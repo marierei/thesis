@@ -179,8 +179,8 @@ nedover = @objFun1;
 
 
 
-
-
+global arr;
+arr = [];
 
 
 
@@ -191,21 +191,24 @@ options = optimoptions('simulannealbnd','PlotFcns',...
 % Simulated annealing - blå
 lb = [(noderFlytt(1,:) - 0.2) (noderFlytt(2,:) - 0.2)];
 ub = [(noderFlytt(1,:) + 0.2) (noderFlytt(2,:) + 0.2)];
-%lb
-%ub
-[x,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
-plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2);
-hold on;
-T
 
-T(7,:) = x(1,:)
+%lb = [noderFlytt(1,:) - 0.2];
+%ub = [noderFlytt(1,:) + 0.2];
+[x,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
+
+%plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
+%hold on;
+
+T(7,:) = x(1,:);
 T(8,:) = x(2,:)
+
 
 plotMesh(E, T, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i blå farge
 hold on;
 fprintf('The best function value found was : %g\n', fval);
 
 x
+fval
 
 % General algotithm - rød
 %lb = [noderFlytt - 0.05];
@@ -222,6 +225,7 @@ x
 
 % TODO: Lage vG og finne hva denne funksjonen egentlig gjør
 %[E, N, vGvokselNr] = vox2mesh12(vG)
+
 
 
 

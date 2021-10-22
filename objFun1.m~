@@ -8,7 +8,6 @@ function obj = objFun1(x)
 % Resultatet fra funksjonen m� kun v�re en skalar 
 % Her er din kode som inneholder obj = 1*nedBoy + 0.001*maxE
 % Definerer global variabel i dette scopet
-global N;
 global E;
 global extF;
 global extC;
@@ -22,10 +21,10 @@ global T;
 %T(4,:) = N(4,:);
 %T(5,:) = N(5,:);
 %T(6,:) = N(6,:);
-%T(7,:) = T(7,:) - x(1,:);
-%T(8,:) = T(8,:) - x(2,:);
+%T(7,:) = T(7,:) + x(1,:);
+%T(8,:) = T(8,:) + x(2,:);
 T(7,:) = x(1,:);
-T(8,:) = x(2,:);
+%T(8,:) = x(2,:);
 %T(8,:) = N(8,:);
 %T(9,:) = N(9,:);
 %T(10,:) = N(10,:);
@@ -38,6 +37,23 @@ T(8,:) = x(2,:);
 [sE, dN] = FEM_frame(T, E, extF, extC);
 
 maxE = maxEdgeLng(E,T);
+x
+
+sum_edge = 0;
+
+for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
+    
+    sum_edge = sum_edge + E(e,
+    nodeNr1 = E(e,1); % nodenummer på første node i edge nummer e
+    nodeNr2 = E(e,2); % nodenummer på andre node i edge nummer e
+    xyzPosNode1 = N(nodeNr1,:); % xyz-pos til første node i edge nummer e
+    xyzPosNode2 = N(nodeNr2,:); % xyz-pos til andre node i edge nummer e
+    
+    lN = norm( xyzPosNode2 - xyzPosNode1); % Lengde på edge nr e
+    
+end
+
+
 
 
 
@@ -48,9 +64,9 @@ nedBoy = boyX + boyY + boyZ;
 
 
 %nedBoy = dN(9,3) + dN(10,3) + dN(11,3) + dN(12,3);
-nedboyArray = [nedboyArray nedBoy];
+%nedboyArray = [nedboyArray nedBoy];
 %obj = nedBoy;
-obj = -maxE;
-%obj = 1*nedBoy + 1*maxE;
+obj = maxE;
+%obj = 1 -1*nedBoy %- 0.005*maxE;
 
 end

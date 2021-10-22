@@ -13,6 +13,7 @@ global extF;
 global extC;
 global nedboyArray;
 global T;
+global arr;
 
 
 %T(1,:) = N(1,:);
@@ -36,9 +37,27 @@ T(8,:) = x(2,:);
 %[sE, dN] = FEM_truss(T,E, extF,extC);
 [sE, dN] = FEM_frame(T, E, extF, extC);
 
-maxE = maxEdgeLng(E,T)
+maxE = maxEdgeLng(E,T);
+x;
 
+sum_edge = 0;
 
+for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
+    
+    nodeNr1 = E(e,1); % nodenummer på første node i edge nummer e
+    nodeNr2 = E(e,2); % nodenummer på andre node i edge nummer e
+    xyzPosNode1 = T(nodeNr1,:); % xyz-pos til første node i edge nummer e
+    xyzPosNode2 = T(nodeNr2,:); % xyz-pos til andre node i edge nummer e
+    
+    lN = norm( xyzPosNode2 - xyzPosNode1); % Lengde på edge nr e
+    
+    sum_edge = sum_edge + lN;
+    
+end
+
+sum_edge;
+
+arr = [arr sum_edge];
 
 boyX = abs(dN(9,1)) + abs(dN(10,1)) + abs(dN(11,1)) + abs(dN(12,1));
 boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
@@ -49,7 +68,8 @@ nedBoy = boyX + boyY + boyZ;
 %nedBoy = dN(9,3) + dN(10,3) + dN(11,3) + dN(12,3);
 %nedboyArray = [nedboyArray nedBoy];
 %obj = nedBoy;
-obj = maxE;
+%obj = maxE;
 %obj = 1 -1*nedBoy %- 0.005*maxE;
+obj = sum_edge;
 
 end
