@@ -25,7 +25,7 @@ global arr;
 %T(7,:) = T(7,:) + x(1,:);
 %T(8,:) = T(8,:) + x(2,:);
 T(7,:) = x(1,:);
-T(8,:) = x(2,:);
+%T(8,:) = x(2,:);
 %T(8,:) = N(8,:);
 %T(9,:) = N(9,:);
 %T(10,:) = N(10,:);
@@ -63,7 +63,6 @@ boyX = abs(dN(9,1)) + abs(dN(10,1)) + abs(dN(11,1)) + abs(dN(12,1));
 boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
 boyZ = abs(dN(9,3)) + abs(dN(10,3)) + abs(dN(11,3)) + abs(dN(12,3));
 nedBoy = boyX + boyY + boyZ;
-
 
 %nedBoy = dN(9,3) + dN(10,3) + dN(11,3) + dN(12,3);
 %nedboyArray = [nedboyArray nedBoy];

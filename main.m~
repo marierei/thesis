@@ -15,8 +15,8 @@ N = [2 2 2
      
      2 2 3
      3 2 3
-     2.2 2.5 3.6
-     %2 3 3
+     %2.2 2.5 3.6
+     2 3 3
      3 3 3
      
      2 2 4
@@ -98,9 +98,8 @@ clf;
 plotMesh(E, N, 'txt');
 hold on;
 %plotMeshCext(N, extC, 'ballRadius', 100);   % Blå kuler for låste noder
-%plotMeshFext(N, extF, 'vecPlotScale', 0.001); % Kraftvektorer, 0.001 skalerer ned vektorene for å passe grafen
+plotMeshFext(N, extF, 'vecPlotScale', 0.001); % Kraftvektorer, 0.001 skalerer ned vektorene for å passe grafen
 
- maxEdgeLng(E,N);
 
 % Kjøring av simulatoren
 % sE - stress edge array, hvor mye stress/trykk det er på hver edge
@@ -109,37 +108,33 @@ hold on;
 [sE, dN] = FEM_frame(N, E, extF, extC);
 
 % Plotter resultatet
-%clf;
-%plotMesh(E, N, 'lThick',1, 'col',[0.4 0.4 1], 'lThick', 2); % Opprinnelig mesh i blå farge, tynne linjer
 visuellScale = 100;    % Skalerer opp forflytningen
-%hold on;
 %plotMesh(E, N-visuellScale*dN(:,1:3), 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
 %plotMeshCext(N, extC, 'ballRadius',100);
 %plotMeshFext(N-visuellScale*dN(:,1:3), extF, 'vecPlotScale',0.001);
 %hold on;
 
+% Kode for å plotte 3D-figur
 noSec = 30;
 rad = 0.002; % Radius
 %[Fp,Np] = mesh2openQuadPoly(E, N-visuellScale*dN(:,1:3), rad, noSec, 'scaleSphere', 1.2);
 %clf; plotPoly(Fp,Np, 'edgeOff');
 
-
+% Bruker ikke dette til noe per nå
 global nedboyArray;
 nedboyArray = [];
 
-
-
 % Finner total nedbøyning av topplaten i z-planet ved å bruke node displacement
 % Ønsker å minimere denne
-global nedBoy;
+%global nedBoy;
 boyX = abs(dN(9,1)) + abs(dN(10,1)) + abs(dN(11,1)) + abs(dN(12,1));
 boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
 boyZ = abs(dN(9,3)) + abs(dN(10,3)) + abs(dN(11,3)) + abs(dN(12,3));
-nedBoy = boyX + boyY + boyZ;
+nedBoy = boyX + boyY + boyZ
 
 % Setter inn noden som skal flyttes i et array
 noderFlytt(1,:) = N(7,:)
-noderFlytt(2,:) = N(8,:)
+%noderFlytt(2,:) = N(8,:)
 
 % Finne nodene som flyttes nedover
 % Dette må gjøres penere
@@ -151,34 +146,71 @@ ned = [N(9,:); N(10,:); N(11,:); N(12,:)]
 T = N;
 nedover = @objFun1;
 
-%options = optimoptions('simulannealbnd','PlotFcns',...
-%          {@saplotbestx,@saplotbestf,@saplotx,@saplotf});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+global arr;
+arr = [];
+
+
+
+
+options = optimoptions('simulannealbnd','PlotFcns',...
+          {@saplotbestx,@saplotbestf,@saplotx,@saplotf});
 
 % Simulated annealing - blå
-lb = [(noderFlytt(1,:) - 0.2) (noderFlytt(2,:) - 0.2)];
-ub = [(noderFlytt(1,:) + 0.2) (noderFlytt(2,:) + 0.2)];
-lb
-ub
-[x,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
+% Grenseverdiene må gjøres penere med en for-loop
+%lb = [(noderFlytt(1,:) - 0.2) (noderFlytt(2,:) - 0.2)];
+%ub = [(noderFlytt(1,:) + 0.2) (noderFlytt(2,:) + 0.2)];
+
+lb = [noderFlytt(1,:) - 0.2];
+ub = [noderFlytt(1,:) + 0.2];
+[x1,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
+
+T(7,:) = x1(1,:);
+%T(8,:) = x(2,:);
+
+
 plotMesh(E, T, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i blå farge
 hold on;
 fprintf('The best function value found was : %g\n', fval);
 
+%x1
+%fval
+
 % General algotithm - rød
-%lb = [noderFlytt - 0.05];
-%ub = [noderFlytt + 0.05];
+lb = [noderFlytt - 0.05];
+ub = [noderFlytt + 0.05];
 
 %lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05)];
 %ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05)];
-%x = ga(nedover,3, [], [], [], [], lb, ub)
-%plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
-%hold on;
+x2 = ga(nedover,3, [], [], [], [], lb, ub);
+
+T(7,:) = x2(1,:);
+plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
+hold on;
 
 %nedboyArray
-
+x1
+x2
 
 % TODO: Lage vG og finne hva denne funksjonen egentlig gjør
 %[E, N, vGvokselNr] = vox2mesh12(vG)
+
 
 
 
