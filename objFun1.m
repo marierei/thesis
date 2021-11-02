@@ -15,20 +15,20 @@ global nedboyArray;
 global T;
 global arr;
 
+%forste = x(1,:)
+%andre = x(2,:)
+
 
 %T(1,:) = N(1,:);
 %T(2,:) = N(2,:);
 %T(3,:) = N(3,:);
 %T(4,:) = N(4,:);
-%T(5,:) = N(5,:);
-%T(6,:) = N(6,:);
-%T(7,:) = T(7,:) + x(1,:);
-%T(8,:) = T(8,:) + x(2,:);
+T(5,:) = x(3,:);
+T(6,:) = x(4,:);
 T(7,:) = x(1,:);
-%T(8,:) = x(2,:);
-%T(8,:) = N(8,:);
-%T(9,:) = N(9,:);
-%T(10,:) = N(10,:);
+T(8,:) = x(2,:);
+%T(9,:) = x(3,:);
+%T(10,:) = x(4,:);
 %T(11,:) = N(11,:);
 %T(12,:) = N(12,:);
 
@@ -68,7 +68,10 @@ nedBoy = boyX + boyY + boyZ;
 %nedboyArray = [nedboyArray nedBoy];
 %obj = nedBoy;
 %obj = maxE;
+% maxE virker som et tåpelig og begrensende mål
+% Kanskje skrive om dette i oppgaven???
 %obj = 1 -1*nedBoy %- 0.005*maxE;
-obj = sum_edge;
+%obj = sum_edge;
+obj = nedBoy + 0.00001 * sum_edge;
 
 end

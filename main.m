@@ -136,18 +136,36 @@ nedBoy = boyX + boyY + boyZ
 % Setter inn initiell nedbøy på første plass i array
 nedboyArray(1) = nedBoy;
 
-% Setter inn noden som skal flyttes i et array
-noderFlytt(1,:) = N(7,:)
-%noderFlytt(2,:) = N(8,:)
 
-% Finne nodene som flyttes nedover
-% Dette må gjøres penere
-ned = [N(9,:); N(10,:); N(11,:); N(12,:)]
+
+
+
+
+
+
+
+
+
 
 
 
 
 T = N;
+
+% Setter inn noden som skal flyttes i et array
+noderFlytt(1,:) = T(7,:);
+noderFlytt(2,:) = T(8,:);
+noderFlytt(3,:) = T(5,:);
+noderFlytt(4,:) = T(6,:);
+
+% Finne nodene som flyttes nedover
+% Dette må kunne gjøres penere
+ned = [N(9,:); N(10,:); N(11,:); N(12,:)]
+
+grense = 0.5;
+
+
+%T = N;
 nedover = @objFun1;
 
 
@@ -183,50 +201,105 @@ arr = [];
 arr(1) = sum_edge;
 
 
-
+T = N;
 options = optimoptions('simulannealbnd','PlotFcns',...
           {@saplotbestx,@saplotbestf,@saplotx,@saplotf});
 
 % Simulated annealing - blå
-% Grenseverdiene må gjøres penere med en for-loop
-%lb = [(noderFlytt(1,:) - 0.2) (noderFlytt(2,:) - 0.2)];
-%ub = [(noderFlytt(1,:) + 0.2) (noderFlytt(2,:) + 0.2)];
+%lb = [noderFlytt(1,:) - 0.05];
+%ub = [noderFlytt(1,:) + 0.05];
 
-lb = [noderFlytt(1,:) - 0.2];
-ub = [noderFlytt(1,:) + 0.2];
+% Grenseverdiene må gjøres penere med en for-loop
+%lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05)];
+%ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05)];
+
+% Midterste lag
+lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05) (noderFlytt(3,:) - 0.05) (noderFlytt(4,:) - 0.05)];
+ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05) (noderFlytt(3,:) + 0.05) (noderFlytt(4,:) + 0.05)];
+
 [x1,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
 
 T(7,:) = x1(1,:);
-%T(8,:) = x(2,:);
+T(8,:) = x1(2,:);
+T(5,:) = x1(3,:);
+T(6,:) = x1(4,:);
 
-
+figure(2);
+clf;
 plotMesh(E, T, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i blå farge
 hold on;
 fprintf('The best function value found was : %g\n', fval);
 
-figure(2);
-clf;
-plot(arr)
+%figure(2);
+%clf;
+%plot(arr);
 x1
 fval
 
 
 
+
+
+
+
+
+
 % General algotithm - rød
+T = N;
 %lb = [noderFlytt - 0.05];
 %ub = [noderFlytt + 0.05];
+tall = 1
 
+
+% Dette må kunnes gjøres lettere, kanskje som en for-loop i objFun1
 %lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05)];
 %ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05)];
-%x2 = ga(nedover,3, [], [], [], [], lb, ub);
+tall = tall + 1
 
+
+% For én node
+%[x2, fval] = ga(nedover,3, [], [], [], [], lb, ub);
+
+% For to noder
+%[x2, fval] = ga(nedover, 3, [], [], [], [], lb, ub);
+tall = tall + 1
+
+
+%figure(1);
 %T(7,:) = x2(1,:);
+%T(8,:) = x2(2,:);
+tall = tall + 1
+
+
+
+
+
+
+
+
+
 %plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
 %hold on;
+tall = tall+ 1
 
-%nedboyArray
-%x1
-%x2
+
+
+
+
+
+%figure(3);
+%clf;
+%plot(arr);
+
+nedboyArray
+
+
+
+
+
+
+
+
 
 % TODO: Lage vG og finne hva denne funksjonen egentlig gjør
 %[E, N, vGvokselNr] = vox2mesh12(vG)
