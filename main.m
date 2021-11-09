@@ -5,6 +5,7 @@ global extC;
 global extF;
 global T;
 global nedboyArray;
+global antNoder;
 
 % Noder
 % Dimensjoner i meter, skalerer ned til desimeter senere
@@ -141,7 +142,7 @@ nedboyArray(1) = nedBoy;
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -155,8 +156,14 @@ T = N;
 % Setter inn noden som skal flyttes i et array
 noderFlytt(1,:) = T(7,:);
 noderFlytt(2,:) = T(8,:);
-noderFlytt(3,:) = T(5,:);
-noderFlytt(4,:) = T(6,:);
+%noderFlytt(3,:) = T(5,:);
+%noderFlytt(4,:) = T(6,:);
+
+antNoder = size(noderFlytt, 1);
+
+
+
+
 
 % Finne nodene som flyttes nedover
 % Dette må kunne gjøres penere
@@ -177,7 +184,7 @@ nedover = @objFun1;
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 sum_edge = 0;
 
 for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
@@ -192,6 +199,8 @@ for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
     sum_edge = sum_edge + lN;
     
 end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 
@@ -210,19 +219,19 @@ options = optimoptions('simulannealbnd','PlotFcns',...
 %ub = [noderFlytt(1,:) + 0.05];
 
 % Grenseverdiene må gjøres penere med en for-loop
-%lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05)];
-%ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05)];
+lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05)];
+ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05)];
 
 % Midterste lag
-lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05) (noderFlytt(3,:) - 0.05) (noderFlytt(4,:) - 0.05)];
-ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05) (noderFlytt(3,:) + 0.05) (noderFlytt(4,:) + 0.05)];
+%lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05) (noderFlytt(3,:) - 0.05) (noderFlytt(4,:) - 0.05)];
+%ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05) (noderFlytt(3,:) + 0.05) (noderFlytt(4,:) + 0.05)];
 
 [x1,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
 
 T(7,:) = x1(1,:);
 T(8,:) = x1(2,:);
-T(5,:) = x1(3,:);
-T(6,:) = x1(4,:);
+%T(5,:) = x1(3,:);
+%T(6,:) = x1(4,:);
 
 figure(2);
 clf;
@@ -233,13 +242,15 @@ fprintf('The best function value found was : %g\n', fval);
 %figure(2);
 %clf;
 %plot(arr);
-x1
-fval
+%x1
+%fval
 
 
 
 
-
+%figure(3);
+%clf;
+%plot(arr);
 
 
 
@@ -252,8 +263,8 @@ tall = 1
 
 
 % Dette må kunnes gjøres lettere, kanskje som en for-loop i objFun1
-%lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05)];
-%ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05)];
+lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05)];
+ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05)];
 tall = tall + 1
 
 
@@ -261,14 +272,15 @@ tall = tall + 1
 %[x2, fval] = ga(nedover,3, [], [], [], [], lb, ub);
 
 % For to noder
-%[x2, fval] = ga(nedover, 3, [], [], [], [], lb, ub);
+[x2, fval] = ga(nedover, 6, [], [], [], [], lb, ub);
 tall = tall + 1
 
 
 %figure(1);
-%T(7,:) = x2(1,:);
-%T(8,:) = x2(2,:);
-tall = tall + 1
+
+x2 = reshape(x2, [antNoder,3]);
+T(7,:) = x2(1,:);
+T(8,:) = x2(2,:);
 
 
 
@@ -278,9 +290,10 @@ tall = tall + 1
 
 
 
-%plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
-%hold on;
-tall = tall+ 1
+
+plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
+hold on;
+
 
 
 

@@ -14,17 +14,23 @@ global extC;
 global nedboyArray;
 global T;
 global arr;
+global antNoder;
 
 %forste = x(1,:)
 %andre = x(2,:)
+x;
+%n = antNoder;
+x = reshape(x, [antNoder,3]);
 
 
 %T(1,:) = N(1,:);
 %T(2,:) = N(2,:);
 %T(3,:) = N(3,:);
 %T(4,:) = N(4,:);
-T(5,:) = x(3,:);
-T(6,:) = x(4,:);
+%T(5,:) = x(3,:);
+%T(6,:) = x(4,:);
+%T(7,:) = x(1,1:3);
+%T(8,:) = x(1,4:6);
 T(7,:) = x(1,:);
 T(8,:) = x(2,:);
 %T(9,:) = x(3,:);
@@ -38,7 +44,7 @@ T(8,:) = x(2,:);
 [sE, dN] = FEM_frame(T, E, extF, extC);
 
 maxE = maxEdgeLng(E,T);
-x;
+
 
 sum_edge = 0;
 
@@ -51,7 +57,7 @@ for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
     
     lN = norm( xyzPosNode2 - xyzPosNode1); % Lengde pÃ¥ edge nr e
     
-    sum_edge = sum_edge + lN;
+    sum_edge = sum_edge + lN^2;
     
 end
 
@@ -71,7 +77,7 @@ nedBoy = boyX + boyY + boyZ;
 % maxE virker som et tåpelig og begrensende mål
 % Kanskje skrive om dette i oppgaven???
 %obj = 1 -1*nedBoy %- 0.005*maxE;
-%obj = sum_edge;
-obj = nedBoy + 0.00001 * sum_edge;
+obj = sum_edge;
+%obj = nedBoy + 0.00001 * sum_edge;
 
 end
