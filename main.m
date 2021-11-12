@@ -129,6 +129,7 @@ nedboyArray = [];
 % Finner total nedbøyning av topplaten i z-planet ved å bruke node displacement
 % Ønsker å minimere denne
 %global nedBoy;
+
 boyX = abs(dN(9,1)) + abs(dN(10,1)) + abs(dN(11,1)) + abs(dN(12,1));
 boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
 boyZ = abs(dN(9,3)) + abs(dN(10,3)) + abs(dN(11,3)) + abs(dN(12,3));
@@ -160,7 +161,7 @@ noderFlytt(2,:) = T(8,:);
 %noderFlytt(4,:) = T(6,:);
 
 antNoder = size(noderFlytt, 1);
-
+grense = 0.05
 
 
 
@@ -214,17 +215,15 @@ T = N;
 options = optimoptions('simulannealbnd','PlotFcns',...
           {@saplotbestx,@saplotbestf,@saplotx,@saplotf});
 
-% Simulated annealing - blå
-%lb = [noderFlytt(1,:) - 0.05];
-%ub = [noderFlytt(1,:) + 0.05];
+% Finner grenseverdiene
 
-% Grenseverdiene må gjøres penere med en for-loop
-lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05)];
-ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05)];
+lb = []
+ub = []
 
-% Midterste lag
-%lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05) (noderFlytt(3,:) - 0.05) (noderFlytt(4,:) - 0.05)];
-%ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05) (noderFlytt(3,:) + 0.05) (noderFlytt(4,:) + 0.05)];
+for i = 1 : antNoder
+    lb = [lb (noderFlytt(i,:) - grense)]
+    ub = [ub (noderFlytt(i,:) + grense)]
+end
 
 [x1,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
 
@@ -261,22 +260,15 @@ T = N;
 %ub = [noderFlytt + 0.05];
 tall = 1
 
-
 % Dette må kunnes gjøres lettere, kanskje som en for-loop i objFun1
-lb = [(noderFlytt(1,:) - 0.05) (noderFlytt(2,:) - 0.05)];
-ub = [(noderFlytt(1,:) + 0.05) (noderFlytt(2,:) + 0.05)];
-tall = tall + 1
 
 
-% For én node
+% For én node, 3 dim
 %[x2, fval] = ga(nedover,3, [], [], [], [], lb, ub);
 
-% For to noder
+% For to noder, 6 dim
 [x2, fval] = ga(nedover, 6, [], [], [], [], lb, ub);
-tall = tall + 1
 
-
-%figure(1);
 
 x2 = reshape(x2, [antNoder,3]);
 T(7,:) = x2(1,:);
