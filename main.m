@@ -154,6 +154,24 @@ nedboyArray(1) = nedBoy;
 
 T = N;
 
+
+
+%noderFlytt(1,:) = T(1,:);
+%noderFlytt(2,:) = T(2,:);
+%noderFlytt(3,:) = T(3,:);
+%noderFlytt(4,:) = T(4,:);
+%noderFlytt(5,:) = T(5,:);
+%noderFlytt(6,:) = T(6,:);
+%noderFlytt(7,:) = T(7,:);
+%noderFlytt(8,:) = T(8,:);
+%noderFlytt(9,:) = T(9,:);
+%noderFlytt(10,:) = T(10,:);
+%noderFlytt(11,:) = T(11,:);
+%noderFlytt(12,:) = T(12,:);
+
+
+
+
 % Setter inn noden som skal flyttes i et array
 noderFlytt(1,:) = T(7,:);
 noderFlytt(2,:) = T(8,:);
@@ -211,7 +229,7 @@ arr = [];
 arr(1) = sum_edge;
 
 
-T = N;
+T1 = N;
 options = optimoptions('simulannealbnd','PlotFcns',...
           {@saplotbestx,@saplotbestf,@saplotx,@saplotf});
 
@@ -227,64 +245,57 @@ end
 
 [x1,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
 
-T(7,:) = x1(1,:);
-T(8,:) = x1(2,:);
+%T(1,:) = x1(1,:);
+%T(2,:) = x1(2,:);
+%T(3,:) = x1(3,:);
+%T(4,:) = x1(4,:);
+%T(5,:) = x1(5,:);
+%T(6,:) = x1(6,:);
+%T(7,:) = x1(7,:);
+%T(8,:) = x1(8,:);
+%T(9,:) = x1(9,:);
+%T(10,:) = x1(10,:);
+%T(11,:) = x1(11,:);
+%T(12,:) = x1(12,:);
+
+
+
+
+
+T1(7,:) = x1(1,:);
+T1(8,:) = x1(2,:);
 %T(5,:) = x1(3,:);
 %T(6,:) = x1(4,:);
 
+
 figure(2);
 clf;
-plotMesh(E, T, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i blå farge
+plotMesh(E, T1, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i blå farge
 hold on;
 fprintf('The best function value found was : %g\n', fval);
 
-%figure(2);
-%clf;
-%plot(arr);
-%x1
-%fval
 
 
-
-
-%figure(3);
-%clf;
-%plot(arr);
 
 
 
 
 % General algotithm - rød
-T = N;
-%lb = [noderFlytt - 0.05];
-%ub = [noderFlytt + 0.05];
-tall = 1
+%T2 = N;
 
-% Dette må kunnes gjøres lettere, kanskje som en for-loop i objFun1
-
-
-% For én node, 3 dim
-%[x2, fval] = ga(nedover,3, [], [], [], [], lb, ub);
+        % For én node, 3 dim
+        %[x2, fval] = ga(nedover,3, [], [], [], [], lb, ub);
 
 % For to noder, 6 dim
-[x2, fval] = ga(nedover, 6, [], [], [], [], lb, ub);
+%dim = antNoder * 3;
+%[x2, fval] = ga(nedover, dim, [], [], [], [], lb, ub);
 
+%x2 = reshape(x2, [antNoder,3]);
+%T2(7,:) = x2(1,:);
+%T2(8,:) = x2(2,:);
 
-x2 = reshape(x2, [antNoder,3]);
-T(7,:) = x2(1,:);
-T(8,:) = x2(2,:);
-
-
-
-
-
-
-
-
-
-
-plotMesh(E, T, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
-hold on;
+%plotMesh(E, T2, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
+%hold on;
 
 
 
@@ -300,7 +311,8 @@ nedboyArray
 
 
 
-
+plotMesh(E, N, 'txt');
+hold on;
 
 
 

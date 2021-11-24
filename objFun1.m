@@ -16,28 +16,24 @@ global T;
 global arr;
 global antNoder;
 
-%forste = x(1,:)
-%andre = x(2,:)
-x;
-%n = antNoder;
-x = reshape(x, [antNoder,3]);
+x = reshape(x, [antNoder,3])
+
+%T(1,:) = x(1,:);
+%T(2,:) = x(2,:);
+%T(3,:) = x(3,:);
+%T(4,:) = x(4,:);
+%T(5,:) = x(5,:);
+%T(6,:) = x(6,:);
+%T(7,:) = x(7,:);
+%T(8,:) = x(8,:);
+%T(9,:) = x(9,:);
+%T(10,:) = x(10,:);
+%T(11,:) = x(11,:);
+%T(12,:) = x(12,:);
 
 
-%T(1,:) = N(1,:);
-%T(2,:) = N(2,:);
-%T(3,:) = N(3,:);
-%T(4,:) = N(4,:);
-%T(5,:) = x(3,:);
-%T(6,:) = x(4,:);
-%T(7,:) = x(1,1:3);
-%T(8,:) = x(1,4:6);
 T(7,:) = x(1,:);
 T(8,:) = x(2,:);
-%T(9,:) = x(3,:);
-%T(10,:) = x(4,:);
-%T(11,:) = N(11,:);
-%T(12,:) = N(12,:);
-
 
 % Finner stress og displacement for ny matrise
 %[sE, dN] = FEM_truss(T,E, extF,extC);
@@ -55,7 +51,7 @@ for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
     xyzPosNode1 = T(nodeNr1,:); % xyz-pos til f√∏rste node i edge nummer e
     xyzPosNode2 = T(nodeNr2,:); % xyz-pos til andre node i edge nummer e
     
-    lN = norm( xyzPosNode2 - xyzPosNode1); % Lengde p√• edge nr e
+    lN = norm(xyzPosNode2 - xyzPosNode1); % Lengde p√• edge nr e
     
     sum_edge = sum_edge + lN^2;
     
@@ -70,14 +66,12 @@ boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
 boyZ = abs(dN(9,3)) + abs(dN(10,3)) + abs(dN(11,3)) + abs(dN(12,3));
 nedBoy = boyX + boyY + boyZ;
 
-%nedBoy = dN(9,3) + dN(10,3) + dN(11,3) + dN(12,3);
 %nedboyArray = [nedboyArray nedBoy];
 %obj = nedBoy;
-%obj = maxE;
 % maxE virker som et tÂpelig og begrensende mÂl
 % Kanskje skrive om dette i oppgaven???
-%obj = 1 -1*nedBoy %- 0.005*maxE;
+%obj = 1 - 1*nedBoy - 0.005*maxE;
 obj = sum_edge;
-%obj = nedBoy + 0.00001 * sum_edge;
+%obj = nedBoy + 0.001 * sum_edge + 0.001 * nedBoy;
 
 end
