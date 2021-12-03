@@ -37,7 +37,7 @@ T(8,:) = x(2,:);
 
 % Finner stress og displacement for ny matrise
 %[sE, dN] = FEM_truss(T,E, extF,extC);
-[sE, dN] = FEM_frame(T, E, extF, extC);
+[sE, dN] = FEM_frame(E, T, extC, extF);
 
 maxE = maxEdgeLng(E,T);
 

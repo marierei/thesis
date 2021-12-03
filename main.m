@@ -107,7 +107,7 @@ plotMeshFext(N, extF, 'vecPlotScale', 0.001); % Kraftvektorer, 0.001 skalerer ne
 % sE - stress edge array, hvor mye stress/trykk det er på hver edge
 % dN - displacement node array, hvor mye hver node har flyttet seg pga
 % stresset, trekkes fra opprinnelige N-posisioner for nye posisjoner
-[sE, dN] = FEM_frame(N, E, extF, extC);
+[sE, dN] = FEM_frame(E, N, extC, extF);
 
 % Plotter resultatet
 visuellScale = 100;    % Skalerer opp forflytningen
