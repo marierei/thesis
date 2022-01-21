@@ -16,7 +16,7 @@ global T;
 global arr;
 global antNoder;
 
-x = reshape(x, [antNoder,3])
+x = reshape(x, [antNoder,3]);
 
 %T(1,:) = x(1,:);
 %T(2,:) = x(2,:);
@@ -30,10 +30,12 @@ x = reshape(x, [antNoder,3])
 %T(10,:) = x(10,:);
 %T(11,:) = x(11,:);
 %T(12,:) = x(12,:);
+x
+T(5,:) = x(1,:);
+T(6,:) = x(2,:);
+T(7,:) = x(3,:);
+T(8,:) = x(4,:);
 
-
-T(7,:) = x(1,:);
-T(8,:) = x(2,:);
 
 % Finner stress og displacement for ny matrise
 %[sE, dN] = FEM_truss(T,E, extF,extC);
@@ -72,6 +74,6 @@ nedBoy = boyX + boyY + boyZ;
 % Kanskje skrive om dette i oppgaven???
 %obj = 1 - 1*nedBoy - 0.005*maxE;
 obj = sum_edge;
-%obj = nedBoy + 0.001 * sum_edge + 0.001 * nedBoy;
+%obj = nedBoy + 0.001 * sum_edge;
 
 end

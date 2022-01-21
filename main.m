@@ -173,10 +173,10 @@ T = N;
 
 
 % Setter inn noden som skal flyttes i et array
-noderFlytt(1,:) = T(7,:);
-noderFlytt(2,:) = T(8,:);
-%noderFlytt(3,:) = T(5,:);
-%noderFlytt(4,:) = T(6,:);
+noderFlytt(1,:) = T(5,:);
+noderFlytt(2,:) = T(6,:);
+noderFlytt(3,:) = T(7,:);
+noderFlytt(4,:) = T(8,:);
 
 antNoder = size(noderFlytt, 1);
 grense = 0.05
@@ -262,10 +262,10 @@ end
 
 
 
-T1(7,:) = x1(1,:);
-T1(8,:) = x1(2,:);
-%T(5,:) = x1(3,:);
-%T(6,:) = x1(4,:);
+T1(5,:) = x1(1,:);
+T1(6,:) = x1(2,:);
+T1(7,:) = x1(3,:);
+T1(8,:) = x1(4,:);
 
 
 figure(2);
@@ -281,21 +281,25 @@ fprintf('The best function value found was : %g\n', fval);
 
 
 % General algotithm - rød
-%T2 = N;
+T2 = N;
 
         % For én node, 3 dim
         %[x2, fval] = ga(nedover,3, [], [], [], [], lb, ub);
 
 % For to noder, 6 dim
-%dim = antNoder * 3;
-%[x2, fval] = ga(nedover, dim, [], [], [], [], lb, ub);
+dim = antNoder * 3;
+[x2, fval] = ga(nedover, dim, [], [], [], [], lb, ub);
+
+x2 = reshape(x2, [antNoder,3])
 
 %x2 = reshape(x2, [antNoder,3]);
-%T2(7,:) = x2(1,:);
-%T2(8,:) = x2(2,:);
+T2(5,:) = x2(1,:);
+T2(6,:) = x2(2,:);
+T2(7,:) = x2(3,:);
+T2(8,:) = x2(4,:);
 
-%plotMesh(E, T2, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
-%hold on;
+ % Mesh med nodeforflytninger i rød farge
+hold on;
 
 
 
