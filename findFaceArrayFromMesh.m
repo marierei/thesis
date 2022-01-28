@@ -1,3 +1,4 @@
+% Finds all triangle faces of the mesh structure
 function faces = findFaceArrayFromMesh(E,N)
 
 trekanter = [];

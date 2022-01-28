@@ -30,50 +30,32 @@ x = reshape(x, [antNoder,3]);
 %T(10,:) = x(10,:);
 %T(11,:) = x(11,:);
 %T(12,:) = x(12,:);
-x
+x;
 T(5,:) = x(1,:);
 T(6,:) = x(2,:);
 T(7,:) = x(3,:);
 T(8,:) = x(4,:);
 
 
-% Finner stress og displacement for ny matrise
-%[sE, dN] = FEM_truss(T,E, extF,extC);
-[sE, dN] = FEM_frame(E, T, extC, extF);
-
-maxE = maxEdgeLng(E,T);
 
 
-sum_edge = 0;
+%maxE = maxEdgeLng(E,T);
 
-for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
-    
-    nodeNr1 = E(e,1); % nodenummer på første node i edge nummer e
-    nodeNr2 = E(e,2); % nodenummer på andre node i edge nummer e
-    xyzPosNode1 = T(nodeNr1,:); % xyz-pos til første node i edge nummer e
-    xyzPosNode2 = T(nodeNr2,:); % xyz-pos til andre node i edge nummer e
-    
-    lN = norm(xyzPosNode2 - xyzPosNode1); % Lengde på edge nr e
-    
-    sum_edge = sum_edge + lN^2;
-    
-end
+%arr = [arr sum_edge];
 
-sum_edge;
+nedBoy = findNedBoy(E,T);
 
-arr = [arr sum_edge];
-
-boyX = abs(dN(9,1)) + abs(dN(10,1)) + abs(dN(11,1)) + abs(dN(12,1));
-boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
-boyZ = abs(dN(9,3)) + abs(dN(10,3)) + abs(dN(11,3)) + abs(dN(12,3));
-nedBoy = boyX + boyY + boyZ;
+%sum_edge = sum_edges(E,T);
+equiTri = findOffsetEquiTri(T);
 
 %nedboyArray = [nedboyArray nedBoy];
 %obj = nedBoy;
 % maxE virker som et t�pelig og begrensende m�l
 % Kanskje skrive om dette i oppgaven???
-%obj = 1 - 1*nedBoy - 0.005*maxE;
-obj = sum_edge;
+%obj = nedBoy + maxE;
+%obj = 1*nedBoy + 0.5*maxE;
+%obj = sum_edge;
 %obj = nedBoy + 0.001 * sum_edge;
+obj = nedBoy + 0.01 * equiTri;
 
 end

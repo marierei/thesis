@@ -204,20 +204,20 @@ nedover = @objFun1;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-sum_edge = 0;
+sum_edge = sum_edges(E,N);
 
-for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
+%for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
     
-    nodeNr1 = E(e,1); % nodenummer på første node i edge nummer e
-    nodeNr2 = E(e,2); % nodenummer på andre node i edge nummer e
-    xyzPosNode1 = T(nodeNr1,:); % xyz-pos til første node i edge nummer e
-    xyzPosNode2 = T(nodeNr2,:); % xyz-pos til andre node i edge nummer e
+%    nodeNr1 = E(e,1); % nodenummer på første node i edge nummer e
+%    nodeNr2 = E(e,2); % nodenummer på andre node i edge nummer e
+%    xyzPosNode1 = T(nodeNr1,:); % xyz-pos til første node i edge nummer e
+%    xyzPosNode2 = T(nodeNr2,:); % xyz-pos til andre node i edge nummer e
     
-    lN = norm( xyzPosNode2 - xyzPosNode1); % Lengde på edge nr e
+%    lN = norm( xyzPosNode2 - xyzPosNode1); % Lengde på edge nr e
     
-    sum_edge = sum_edge + lN;
+%    sum_edge = sum_edge + lN;
     
-end
+%end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -243,7 +243,7 @@ for i = 1 : antNoder
     ub = [ub (noderFlytt(i,:) + grense)]
 end
 
-[x1,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
+%[x1,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
 
 %T(1,:) = x1(1,:);
 %T(2,:) = x1(2,:);
@@ -262,17 +262,17 @@ end
 
 
 
-T1(5,:) = x1(1,:);
-T1(6,:) = x1(2,:);
-T1(7,:) = x1(3,:);
-T1(8,:) = x1(4,:);
+%T1(5,:) = x1(1,:);
+%T1(6,:) = x1(2,:);
+%T1(7,:) = x1(3,:);
+%T1(8,:) = x1(4,:);
 
 
 figure(2);
-clf;
-plotMesh(E, T1, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i bl� farge
-hold on;
-fprintf('The best function value found was : %g\n', fval);
+%clf;
+%plotMesh(E, T1, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i bl� farge
+%hold on;
+%fprintf('The best function value found was : %g\n', fval);
 
 
 
@@ -298,7 +298,7 @@ T2(6,:) = x2(2,:);
 T2(7,:) = x2(3,:);
 T2(8,:) = x2(4,:);
 
- % Mesh med nodeforflytninger i r�d farge
+plotMesh(E, T2, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i r�d farge
 hold on;
 
 
@@ -315,8 +315,8 @@ nedboyArray
 
 
 
-plotMesh(E, N, 'txt');
-hold on;
+%plotMesh(E, N, 'txt');
+%hold on;
 
 
 
