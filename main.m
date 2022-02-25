@@ -1,10 +1,10 @@
 % Initialiserer globale variabler
-global N;
+%global N;
 global E;
 global extC;
 global extF;
-global T;
-global nedboyArray;
+%global T;
+%global nedboyArray;
 global antNoder;
 
 % Noder
@@ -61,7 +61,7 @@ N = N/10;
       12 6
       12 7];
 
-radius = 0.03  % Radius lik 3 mm
+radius = 0.03;  % Radius lik 3 mm
 E(:,3) = pi*radius^2;
 
 extC = [0 0 0   0 0 0
@@ -95,12 +95,12 @@ extF = [0 0 0   0 0 0
         0 0 0   0 0 0];
 
 % Plotter mesh med nodenr, edgenr, constrainede noder og eksterne krefter
-figure(1);
-clf;
-plotMesh(E, N, 'txt');
-hold on;
+%figure(1);
+%clf;
+%plotMesh(E, N, 'txt');
+%hold on;
 %plotMeshCext(N, extC, 'ballRadius', 100);   % Blå kuler for låste noder
-plotMeshFext(N, extF, 'vecPlotScale', 0.001); % Kraftvektorer, 0.001 skalerer ned vektorene for å passe grafen
+%plotMeshFext(N, extF, 'vecPlotScale', 0.001); % Kraftvektorer, 0.001 skalerer ned vektorene for å passe grafen
 
 
 % Kjøring av simulatoren
@@ -129,12 +129,14 @@ nedboyArray = [];
 % Finner total nedbøyning av topplaten i z-planet ved å bruke node displacement
 % Ønsker å minimere denne
 %global nedBoy;
+%[sE, dN] = FEM_frame(E, N, extC, extF);
 
-boyX = abs(dN(9,1)) + abs(dN(10,1)) + abs(dN(11,1)) + abs(dN(12,1));
-boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
-boyZ = abs(dN(9,3)) + abs(dN(10,3)) + abs(dN(11,3)) + abs(dN(12,3));
-nedBoy = boyX + boyY + boyZ
+%boyX = abs(dN(9,1)) + abs(dN(10,1)) + abs(dN(11,1)) + abs(dN(12,1));
+%boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
+%boyZ = abs(dN(9,3)) + abs(dN(10,3)) + abs(dN(11,3)) + abs(dN(12,3));
+%nedBoy = boyX + boyY + boyZ
 
+nedBoy = findNedBoy(E,N,extC,extF)
 % Setter inn initiell nedbøy på første plass i array
 nedboyArray(1) = nedBoy;
 
@@ -179,21 +181,19 @@ noderFlytt(3,:) = T(7,:);
 noderFlytt(4,:) = T(8,:);
 
 antNoder = size(noderFlytt, 1);
-grense = 0.05
-
-
 
 
 % Finne nodene som flyttes nedover
 % Dette må kunne gjøres penere
-ned = [N(9,:); N(10,:); N(11,:); N(12,:)]
+ned = [N(9,:); N(10,:); N(11,:); N(12,:)];
 
+grense = 0.05;
 grense = 0.5;
 
 
 %T = N;
-nedover = @objFun1;
-
+%nedover = @objFun1;
+nedover = @objFun1
 
 
 
@@ -235,12 +235,12 @@ options = optimoptions('simulannealbnd','PlotFcns',...
 
 % Finner grenseverdiene
 
-lb = []
-ub = []
+lb = [];
+ub = [];
 
 for i = 1 : antNoder
-    lb = [lb (noderFlytt(i,:) - grense)]
-    ub = [ub (noderFlytt(i,:) + grense)]
+    lb = [lb (noderFlytt(i,:) - grense)];
+    ub = [ub (noderFlytt(i,:) + grense)];
 end
 
 %[x1,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);

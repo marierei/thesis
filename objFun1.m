@@ -11,13 +11,15 @@ function obj = objFun1(x)
 global E;
 global extF;
 global extC;
-global nedboyArray;
-global T;
-global arr;
+%global nedboyArray;
+%global T;
+%global arr;
 global antNoder;
 
-x = reshape(x, [antNoder,3]);
+%E
 
+x = reshape(x, [antNoder,3])
+%x
 %T(1,:) = x(1,:);
 %T(2,:) = x(2,:);
 %T(3,:) = x(3,:);
@@ -30,32 +32,25 @@ x = reshape(x, [antNoder,3]);
 %T(10,:) = x(10,:);
 %T(11,:) = x(11,:);
 %T(12,:) = x(12,:);
-x;
+
 T(5,:) = x(1,:);
 T(6,:) = x(2,:);
 T(7,:) = x(3,:);
 T(8,:) = x(4,:);
 
-
-
-
-%maxE = maxEdgeLng(E,T);
-
 %arr = [arr sum_edge];
+%T
 
-nedBoy = findNedBoy(E,T);
+ned = 1;
+lengthEdges = 0.001;
+maxE = 0;
+tri = 0.03;
 
-%sum_edge = sum_edges(E,T);
-equiTri = findOffsetEquiTri(T);
 
 %nedboyArray = [nedboyArray nedBoy];
-%obj = nedBoy;
+
 % maxE virker som et tåpelig og begrensende mål
 % Kanskje skrive om dette i oppgaven???
-%obj = nedBoy + maxE;
-%obj = 1*nedBoy + 0.5*maxE;
-%obj = sum_edge;
-%obj = nedBoy + 0.001 * sum_edge;
-obj = nedBoy + 0.01 * equiTri;
+obj = dialingObjfun(E,T,extC,extF,ned,lengthEdges, maxE, tri);
 
 end

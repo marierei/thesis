@@ -1,12 +1,5 @@
 % Funksjon for å finne hvor langt unna trekantene er å være likesidede
 function equilateral_triangle = findOffsetEquiTri(T)
-%global N;
-%global E;
-
-%figure(1);
-%clf;
-%plotMesh(E, N, 'txt');
-%hold on;
 
 sum_offset = 0;
 

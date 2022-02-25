@@ -1,7 +1,4 @@
-function nedBoy = findNedBoy(E,T)
-
-global extC;
-global extF;
+function nedBoy = findNedBoy(E,T,extC,extF)
 
 % Finner stress og displacement for ny matrise
 [sE, dN] = FEM_frame(E, T, extC, extF);
