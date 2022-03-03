@@ -74,10 +74,10 @@ extC = [0 0 0   0 0 0
         1 1 1   0 0 0
         1 1 1   0 0 0
         
-        1 1 1   0 0 0
-        1 1 1   0 0 0
-        1 1 1   0 0 0
-        1 1 1   0 0 0];
+        1 1 0   0 0 0
+        1 1 0   0 0 0
+        1 1 0   0 0 0
+        1 1 0   0 0 0];
 
 extF = [0 0 0   0 0 0
         0 0 0   0 0 0
@@ -179,6 +179,10 @@ noderFlytt(1,:) = T(5,:);
 noderFlytt(2,:) = T(6,:);
 noderFlytt(3,:) = T(7,:);
 noderFlytt(4,:) = T(8,:);
+noderFlytt(5,:) = T(1,:);
+noderFlytt(6,:) = T(1,:);
+noderFlytt(7,:) = T(3,:);
+noderFlytt(8,:) = T(4,:);
 
 antNoder = size(noderFlytt, 1);
 
@@ -188,12 +192,10 @@ antNoder = size(noderFlytt, 1);
 ned = [N(9,:); N(10,:); N(11,:); N(12,:)];
 
 grense = 0.05;
-grense = 0.5;
+%grense = 0.5;
 
 
-%T = N;
-%nedover = @objFun1;
-nedover = @objFun1
+
 
 
 
@@ -230,6 +232,10 @@ arr(1) = sum_edge;
 
 
 T1 = N;
+
+
+
+
 options = optimoptions('simulannealbnd','PlotFcns',...
           {@saplotbestx,@saplotbestf,@saplotx,@saplotf});
 
@@ -283,6 +289,11 @@ figure(2);
 % General algotithm - rød
 T2 = N;
 
+
+%T = N;
+%nedover = @objFun1;
+nedover = @objFun1
+
         % For én node, 3 dim
         %[x2, fval] = ga(nedover,3, [], [], [], [], lb, ub);
 
@@ -292,11 +303,17 @@ dim = antNoder * 3;
 
 x2 = reshape(x2, [antNoder,3])
 
+
+
 %x2 = reshape(x2, [antNoder,3]);
 T2(5,:) = x2(1,:);
 T2(6,:) = x2(2,:);
 T2(7,:) = x2(3,:);
 T2(8,:) = x2(4,:);
+T2(1,1:2) = x2(5,1:2);
+T2(2,1:2) = x2(6,1:2);
+T2(3,1:2) = x2(7,1:2);
+T2(4,1:2) = x2(8,1:2);
 
 plotMesh(E, T2, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
 hold on;

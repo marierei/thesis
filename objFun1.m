@@ -12,14 +12,12 @@ global E;
 global extF;
 global extC;
 %global nedboyArray;
-%global T;
+global T;
 %global arr;
 global antNoder;
 
-%E
+x = reshape(x, [antNoder,3]);
 
-x = reshape(x, [antNoder,3])
-%x
 %T(1,:) = x(1,:);
 %T(2,:) = x(2,:);
 %T(3,:) = x(3,:);
@@ -37,20 +35,28 @@ T(5,:) = x(1,:);
 T(6,:) = x(2,:);
 T(7,:) = x(3,:);
 T(8,:) = x(4,:);
+T(1,1:2) = x(5,1:2);
+T(2,1:2) = x(6,1:2);
+T(3,1:2) = x(7,1:2);
+T(4,1:2) = x(8,1:2);
 
 %arr = [arr sum_edge];
 %T
 
 ned = 1;
-lengthEdges = 0.001;
+lengthEdges = 0;
 maxE = 0;
-tri = 0.03;
+tri = 0.1;
+gold = 0;
+silver = 0;
 
-
+%nedBoy = findNedBoy(E,T,extC,extF);
 %nedboyArray = [nedboyArray nedBoy];
+%obj = nedBoy;
 
-% maxE virker som et tåpelig og begrensende mål
+
+% maxE virker som et tåpelig og begrensende mål alene
 % Kanskje skrive om dette i oppgaven???
-obj = dialingObjfun(E,T,extC,extF,ned,lengthEdges, maxE, tri);
+obj = dialingObjfun(E,T,extC,extF,ned,lengthEdges, maxE, tri, gold, silver);
 
 end

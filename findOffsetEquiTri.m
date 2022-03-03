@@ -1,5 +1,5 @@
 % Funksjon for å finne hvor langt unna trekantene er å være likesidede
-function equilateral_triangle = findOffsetEquiTri(T)
+function equilateralTriangle = findOffsetEquiTri(T,ytre_trekanter)
 
 sum_offset = 0;
 
@@ -16,19 +16,6 @@ tre_trekanter = [1 4 6         % A
                   8 14 16       % K
                   16 18 22];    % L
 
-
-ytre_trekanter = [1 5 6         % A
-                  5 6 9         % B
-                  6 9 10        % C
-                  4 6 8         % D
-                  6 8 12        % E
-                  6 10 12       % F
-                  3 7 8         % G
-                  7 8 12        % H
-                  7 11 12       % I
-                  3 5 7         % J
-                  5 7 9         % K
-                  7 9 11];      % L
 
 for i = 1 : size(ytre_trekanter, 1)
 
@@ -48,7 +35,7 @@ for i = 1 : size(ytre_trekanter, 1)
 
 end
 
-equilateral_triangle = sum_offset;
+equilateralTriangle = sum_offset;
 
 
 
