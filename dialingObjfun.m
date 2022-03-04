@@ -1,4 +1,4 @@
-function dial = dialingObjfun(E,T,extC,extF,ned,lengthEdges,maxE,tri,gold, silver)
+function dial = dialingObjfun(E,T,extC,extF,ned,lengthEdges,maxE,equi,gold,silver,tri,mass)
 
 
 ytre_trekanter = [1 5 6         % A
@@ -17,12 +17,14 @@ ytre_trekanter = [1 5 6         % A
 
 
 nedBoy = ned * findNedBoy(E,T,extC,extF);
-sumEdge = lengthEdges * sum_edges(E,T);
-maxEdge = maxE * maxEdgeLng(E,T);
-equiTri = tri * findOffsetEquiTri(T,ytre_trekanter);
-goldenTri = gold * findGoldenTriangle(T,ytre_trekanter);
-silverTri = silver * findSilverTriangle(T,ytre_trekanter);
+%sumEdge = lengthEdges * sum_edges(E,T);
+%maxEdge = maxE * maxEdgeLng(E,T);
+%equiTri = equi * findOffsetEquiTri(T,ytre_trekanter);
+%goldenTri = gold * findGoldenTriangle(T,ytre_trekanter);
+%silverTri = silver * findSilverTriangle(T,ytre_trekanter);
+%chooseTri = tri * chooseBestTriangle(T,ytre_trekanter);
+centerofMass = mass * findCenterofMass(T);
 
-%dial = nedBoy + goldenTri;
+dial = nedBoy + centerofMass;
 %dial = nedBoy + sumEdge + maxEdge;
-dial = nedBoy + sumEdge + maxEdge + equiTri + goldenTri + silverTri;
+%dial = nedBoy + sumEdge + maxEdge + equiTri + goldenTri + silverTri + chooseTri;

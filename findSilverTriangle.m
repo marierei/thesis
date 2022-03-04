@@ -20,7 +20,7 @@ for i = 1 : size(ytre_trekanter, 1)
     b1 = triangle(2);
     c1 = triangle(3);
     
-    % Finner forskjellene
+    % Finner forskjellene mellom to lengste og mellom forholdet og sigma
     offset = abs(c1-b1) + abs(sigma - c1/a1);
     sum_offset = sum_offset + offset;
 

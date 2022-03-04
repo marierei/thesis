@@ -89,10 +89,10 @@ extF = [0 0 0   0 0 0
         0 0 0   0 0 0
         0 0 0   0 0 0
         
-        0 12 20   0 0 0
-        0 12 20   0 0 0
-        0 0 0   0 0 0
-        0 0 0   0 0 0];
+        0 0 20   0 0 0
+        0 0 20   0 0 0
+        0 0 20   0 0 0
+        0 0 20   0 0 0];
 
 % Plotter mesh med nodenr, edgenr, constrainede noder og eksterne krefter
 %figure(1);
@@ -179,10 +179,10 @@ noderFlytt(1,:) = T(5,:);
 noderFlytt(2,:) = T(6,:);
 noderFlytt(3,:) = T(7,:);
 noderFlytt(4,:) = T(8,:);
-noderFlytt(5,:) = T(1,:);
-noderFlytt(6,:) = T(1,:);
-noderFlytt(7,:) = T(3,:);
-noderFlytt(8,:) = T(4,:);
+%noderFlytt(5,:) = T(1,:);
+%noderFlytt(6,:) = T(1,:);
+%noderFlytt(7,:) = T(3,:);
+%noderFlytt(8,:) = T(4,:);
 
 antNoder = size(noderFlytt, 1);
 
@@ -310,10 +310,10 @@ T2(5,:) = x2(1,:);
 T2(6,:) = x2(2,:);
 T2(7,:) = x2(3,:);
 T2(8,:) = x2(4,:);
-T2(1,1:2) = x2(5,1:2);
-T2(2,1:2) = x2(6,1:2);
-T2(3,1:2) = x2(7,1:2);
-T2(4,1:2) = x2(8,1:2);
+%T2(1,1:2) = x2(5,1:2);
+%T2(2,1:2) = x2(6,1:2);
+%T2(3,1:2) = x2(7,1:2);
+%T2(4,1:2) = x2(8,1:2);
 
 plotMesh(E, T2, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
 hold on;
@@ -321,8 +321,9 @@ hold on;
 
 
 
-
-
+plotMeshCext(T2, extC, 'ballRadius', 100);
+plotMeshFext(T2, extF, 'vecPlotScale', 0.001);
+hold on;
 
 %figure(3);
 %clf;

@@ -23,7 +23,7 @@ for i = 1 : size(ytre_trekanter, 1)
 
     
     
-    % Finner forskjellene
+    % Finner forskjellene mellom to lengste og mellom forholdet og phi
     offset = abs(c1-b1) + abs(phi - c1/a1);
     sum_offset = sum_offset + offset;
 
