@@ -1,10 +1,9 @@
 % Initialiserer globale variabler
-%global N;
+global N;
+global T;
 global E;
 global extC;
 global extF;
-%global T;
-%global nedboyArray;
 global antNoder;
 
 % Noder
@@ -16,7 +15,6 @@ N = [2 2 2
      
      2 2 3
      3 2 3
-     %2.2 2.5 3.6
      2 3 3
      3 3 3
      
@@ -28,12 +26,7 @@ N = [2 2 2
 N = N/10;
 
 % Edges, kanter
- E = [%2 1
-      %3 1
-      %4 3
-      %4 2
-      %4 1
-      5 1
+ E = [5 1
       5 3
       6 2
       6 1
@@ -89,10 +82,11 @@ extF = [0 0 0   0 0 0
         0 0 0   0 0 0
         0 0 0   0 0 0
         
-        0 0 20   0 0 0
-        0 0 20   0 0 0
-        0 0 20   0 0 0
-        0 0 20   0 0 0];
+        
+        0 12 20   0 0 0
+        0 12 20   0 0 0
+        0 12 20   0 0 0
+        0 12 20   0 0 0];
 
 % Plotter mesh med nodenr, edgenr, constrainede noder og eksterne krefter
 %figure(1);
@@ -101,7 +95,6 @@ extF = [0 0 0   0 0 0
 %hold on;
 %plotMeshCext(N, extC, 'ballRadius', 100);   % Blå kuler for låste noder
 %plotMeshFext(N, extF, 'vecPlotScale', 0.001); % Kraftvektorer, 0.001 skalerer ned vektorene for å passe grafen
-
 
 % Kjøring av simulatoren
 % sE - stress edge array, hvor mye stress/trykk det er på hver edge
@@ -117,8 +110,8 @@ visuellScale = 100;    % Skalerer opp forflytningen
 %hold on;
 
 % Kode for å plotte 3D-figur
-noSec = 30;
-rad = 0.002; % Radius
+%noSec = 30;
+%rad = 0.002; % Radius
 %[Fp,Np] = mesh2openQuadPoly(E, N-visuellScale*dN(:,1:3), rad, noSec, 'scaleSphere', 1.2);
 %clf; plotPoly(Fp,Np, 'edgeOff');
 
@@ -126,52 +119,13 @@ rad = 0.002; % Radius
 global nedboyArray;
 nedboyArray = [];
 
-% Finner total nedbøyning av topplaten i z-planet ved å bruke node displacement
-% Ønsker å minimere denne
-%global nedBoy;
-%[sE, dN] = FEM_frame(E, N, extC, extF);
-
-%boyX = abs(dN(9,1)) + abs(dN(10,1)) + abs(dN(11,1)) + abs(dN(12,1));
-%boyY = abs(dN(9,2)) + abs(dN(10,2)) + abs(dN(11,2)) + abs(dN(12,2));
-%boyZ = abs(dN(9,3)) + abs(dN(10,3)) + abs(dN(11,3)) + abs(dN(12,3));
-%nedBoy = boyX + boyY + boyZ
-
 nedBoy = findNedBoy(E,N,extC,extF)
 % Setter inn initiell nedbøy på første plass i array
 nedboyArray(1) = nedBoy;
 
 
 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-
 T = N;
-
-
-
-%noderFlytt(1,:) = T(1,:);
-%noderFlytt(2,:) = T(2,:);
-%noderFlytt(3,:) = T(3,:);
-%noderFlytt(4,:) = T(4,:);
-%noderFlytt(5,:) = T(5,:);
-%noderFlytt(6,:) = T(6,:);
-%noderFlytt(7,:) = T(7,:);
-%noderFlytt(8,:) = T(8,:);
-%noderFlytt(9,:) = T(9,:);
-%noderFlytt(10,:) = T(10,:);
-%noderFlytt(11,:) = T(11,:);
-%noderFlytt(12,:) = T(12,:);
-
-
 
 
 % Setter inn noden som skal flyttes i et array
@@ -192,49 +146,14 @@ antNoder = size(noderFlytt, 1);
 ned = [N(9,:); N(10,:); N(11,:); N(12,:)];
 
 grense = 0.05;
-%grense = 0.5;
 
 
-
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 sum_edge = sum_edges(E,N);
-
-%for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
-    
-%    nodeNr1 = E(e,1); % nodenummer pÃ¥ fÃ¸rste node i edge nummer e
-%    nodeNr2 = E(e,2); % nodenummer pÃ¥ andre node i edge nummer e
-%    xyzPosNode1 = T(nodeNr1,:); % xyz-pos til fÃ¸rste node i edge nummer e
-%    xyzPosNode2 = T(nodeNr2,:); % xyz-pos til andre node i edge nummer e
-    
-%    lN = norm( xyzPosNode2 - xyzPosNode1); % Lengde pÃ¥ edge nr e
-    
-%    sum_edge = sum_edge + lN;
-    
-%end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 
 
 global arr;
 arr = [];
 arr(1) = sum_edge;
-
-
-T1 = N;
-
-
-
 
 options = optimoptions('simulannealbnd','PlotFcns',...
           {@saplotbestx,@saplotbestf,@saplotx,@saplotf});
@@ -249,63 +168,31 @@ for i = 1 : antNoder
     ub = [ub (noderFlytt(i,:) + grense)];
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Simulated annealing - funker ikke
 %[x1,fval] = simulannealbnd(nedover, noderFlytt, lb, ub);
-
-%T(1,:) = x1(1,:);
-%T(2,:) = x1(2,:);
-%T(3,:) = x1(3,:);
-%T(4,:) = x1(4,:);
-%T(5,:) = x1(5,:);
-%T(6,:) = x1(6,:);
-%T(7,:) = x1(7,:);
-%T(8,:) = x1(8,:);
-%T(9,:) = x1(9,:);
-%T(10,:) = x1(10,:);
-%T(11,:) = x1(11,:);
-%T(12,:) = x1(12,:);
-
-
-
-
 
 %T1(5,:) = x1(1,:);
 %T1(6,:) = x1(2,:);
 %T1(7,:) = x1(3,:);
 %T1(8,:) = x1(4,:);
 
-
-figure(2);
+%figure(2);
 %clf;
 %plotMesh(E, T1, 'txt', 'col',[0 0 1], 'lThick',2); % Mesh med nodeforflytninger i blå farge
 %hold on;
 %fprintf('The best function value found was : %g\n', fval);
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % General algotithm - rød
-T2 = N;
-
-
-%T = N;
-%nedover = @objFun1;
 nedover = @objFun1
-
-        % For én node, 3 dim
-        %[x2, fval] = ga(nedover,3, [], [], [], [], lb, ub);
-
-% For to noder, 6 dim
+T2 = N;
 dim = antNoder * 3;
-[x2, fval] = ga(nedover, dim, [], [], [], [], lb, ub);
+[x2, fval, ~, ~, ~, ~] = ga(nedover, dim, [], [], [], [], lb, ub);
 
 x2 = reshape(x2, [antNoder,3])
 
-
-
-%x2 = reshape(x2, [antNoder,3]);
 T2(5,:) = x2(1,:);
 T2(6,:) = x2(2,:);
 T2(7,:) = x2(3,:);
@@ -315,15 +202,18 @@ T2(8,:) = x2(4,:);
 %T2(3,1:2) = x2(7,1:2);
 %T2(4,1:2) = x2(8,1:2);
 
+figure(2);
 plotMesh(E, T2, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger i rød farge
 hold on;
 
 
 
 
-plotMeshCext(T2, extC, 'ballRadius', 100);
-plotMeshFext(T2, extF, 'vecPlotScale', 0.001);
-hold on;
+%FINN UT PLOTTING!
+
+%plotMeshCext(T1, extC, 'ballRadius', 100);
+%plotMeshFext(T1, extF, 'vecPlotScale', 0.001);
+%old on;
 
 %figure(3);
 %clf;
@@ -331,11 +221,14 @@ hold on;
 
 nedboyArray
 
-
-
 %plotMesh(E, N, 'txt');
 %hold on;
 
+% Kode for å plotte 3D-figur
+%noSec = 30;
+%rad = 0.002; % Radius
+%[Fp,Np] = mesh2openQuadPoly(E, N, rad, noSec, 'scaleSphere', 1.2);
+%clf; plotPoly(Fp,Np, 'edgeOff');
 
 
 

@@ -1,4 +1,4 @@
-function dial = dialingObjfun(E,T,extC,extF,ned,lengthEdges,maxE,equi,gold,silver,tri,mass)
+function dial = dialingObjfun(E,T,extC,extF,ned,lengthEdges,maxE,equi,gold,silver,tri,mass,sym)
 
 
 ytre_trekanter = [1 5 6         % A
@@ -14,17 +14,39 @@ ytre_trekanter = [1 5 6         % A
                   5 7 9         % K
                   7 9 11];      % L
 
-
-
 nedBoy = ned * findNedBoy(E,T,extC,extF);
-%sumEdge = lengthEdges * sum_edges(E,T);
-%maxEdge = maxE * maxEdgeLng(E,T);
-%equiTri = equi * findOffsetEquiTri(T,ytre_trekanter);
-%goldenTri = gold * findGoldenTriangle(T,ytre_trekanter);
-%silverTri = silver * findSilverTriangle(T,ytre_trekanter);
-%chooseTri = tri * chooseBestTriangle(T,ytre_trekanter);
+sumEdge = lengthEdges * sum_edges(E,T);
+maxEdge = maxE * maxEdgeLng(E,T);
+equiTri = equi * findOffsetEquiTri(T,ytre_trekanter);
+goldenTri = gold * findGoldenTriangle(T,ytre_trekanter);
+silverTri = silver * findSilverTriangle(T,ytre_trekanter);
+chooseTri = tri * chooseBestTriangle(T,ytre_trekanter);
 centerofMass = mass * findCenterofMass(T);
+symmetry = sym * findSymmetryOverMiddle(T);
 
-dial = nedBoy + centerofMass;
+maxTotEdgeLengde = 240; % mm
+minNodeDistanse = 0.5; % mm
+minEdgeDistanse = 0.005; % mm
+minVinkelEdges = 15; % grader
+
+
+% STRAFF: Max total edge lengde straffes ved >maxTotEdgeLengde (pris/miljø)
+%sumE = sumEdgeLng(E, T);
+%obj1 = pen1(sumE, 0, maxTotEdgeLengde, 900);
+
+% STRAFF: Avstand mellom noder straffes ved lengder <minNodeDistanse (plundrete å montere)
+%[distT, ~, ~] = minNodeDist(T);
+%obj2 = pen1(distT, minNodeDistanse, 300, 100);
+
+% STRAFF: Avstand mellom edger som ikke deler samme node straffes ved lengder <minEdgeDistanse (kollisjon)
+[distE, ~, ~] = minDistBetweenEdges(E, T);
+obj3 = pen1(distE, minEdgeDistanse, 300, 100);
+
+% STRAFF: Vinkel mellom edger som deler samme node straffes ved <minVinkelEdges grader (vanskelig å montere)
+[angMin, ~, ~, ~] = minAngleConnectedEdges(E, T);
+obj4 = pen1(angMin, minVinkelEdges, 300, 100);
+
+
+dial = nedBoy + obj3 + obj4 + sumEdge + maxEdge + symmetry;
 %dial = nedBoy + sumEdge + maxEdge;
 %dial = nedBoy + sumEdge + maxEdge + equiTri + goldenTri + silverTri + chooseTri;
