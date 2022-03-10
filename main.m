@@ -39,7 +39,6 @@ N = N/10;
       8 7
       8 6
       8 5
-      
       9 5
       9 6
       9 7
@@ -209,15 +208,9 @@ hold on;
 
 
 
-%FINN UT PLOTTING!
 
-%plotMeshCext(T1, extC, 'ballRadius', 100);
-%plotMeshFext(T1, extF, 'vecPlotScale', 0.001);
-%old on;
+figure(3);
 
-%figure(3);
-%clf;
-%plot(arr);
 
 nedboyArray
 
@@ -225,18 +218,8 @@ nedboyArray
 %hold on;
 
 % Kode for å plotte 3D-figur
-%noSec = 30;
-%rad = 0.002; % Radius
-%[Fp,Np] = mesh2openQuadPoly(E, N, rad, noSec, 'scaleSphere', 1.2);
-%clf; plotPoly(Fp,Np, 'edgeOff');
-
-
-
-
-% TODO: Lage vG og finne hva denne funksjonen egentlig gjør
-%[E, N, vGvokselNr] = vox2mesh12(vG)
-
-%[Fp,Np] = mesh2openQuadPoly(E, T, rad, noSec, 'scaleSphere', 1.2);
-%clf; plotPoly(Fp,Np, 'edgeOff');
-
+noSec = 30;
+rad = 0.003; % Radius
+[Fp,Np] = mesh2openQuadPoly(E, N, rad, noSec, 'scaleSphere', 1.2);
+clf; plotPoly(Fp,Np, 'edgeOff');
 
