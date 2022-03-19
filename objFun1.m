@@ -16,18 +16,19 @@ T(8,:) = x(4,:);
 %T(3,1:2) = x(7,1:2);
 %T(4,1:2) = x(8,1:2);
 
-ned = 1.1;
-lengthEdges = 0.0;
-maxE = 0.0;
-equi = 0.0;
-gold = 0.0;
-silver = 0.0;
-tri = 0.0;
-mass = 0.1;
-sym = 0.1;
+ned = 1;
+lengthEdges = 0;
+maxE = 0;
+equi = 0;
+gold = 0;
+silver = 0;
+tri = 0;
+mass = 0;
+sym = 0;
+plane = 0;
 
 % maxE virker som et tåpelig og begrensende mål alene
 % Kanskje skrive om dette i oppgaven???
-obj = dialingObjfun(E,T,extC,extF,ned,lengthEdges,maxE,equi,gold,silver,tri,mass,sym);
+obj = dialingObjfun(E,T,extC,extF,ned,lengthEdges,maxE,equi,gold,silver,tri,mass,sym,plane);
 %obj = findNedBoy(E,T,extC,extF);
 end

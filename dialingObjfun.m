@@ -1,4 +1,4 @@
-function dial = dialingObjfun(E,T,extC,extF,ned,lengthEdges,maxE,equi,gold,silver,tri,mass,sym)
+function dial = dialingObjfun(E,T,extC,extF,ned,lengthEdges,maxE,equi,gold,silver,tri,mass,sym,plane)
 
 
 ytre_trekanter = [1 5 6         % A
@@ -23,9 +23,10 @@ silverTri = silver * findSilverTriangle(T,ytre_trekanter);
 chooseTri = tri * chooseBestTriangle(T,ytre_trekanter);
 centerofMass = mass * findCenterofMass(T);
 symmetry = sym * findSymmetryOverMiddle(T);
+closePlane = plane * findPlane(T);
 
 maxTotEdgeLengde = 240; % mm
-minNodeDistanse = 0.5; % mm
+minNodeDistanse = 1.0; % mm
 minEdgeDistanse = 0.005; % mm
 minVinkelEdges = 15; % grader
 
@@ -47,6 +48,6 @@ obj3 = pen1(distE, minEdgeDistanse, 300, 100);
 obj4 = pen1(angMin, minVinkelEdges, 300, 100);
 
 
-dial = nedBoy + obj3 + obj4 + sumEdge + maxEdge + symmetry;
+%dial = nedBoy + obj3 + obj4 + sumEdge + closePlane;
 %dial = nedBoy + sumEdge + maxEdge;
-%dial = nedBoy + sumEdge + maxEdge + equiTri + goldenTri + silverTri + chooseTri;
+dial = obj3 + obj4 + nedBoy + sumEdge + maxEdge + equiTri + goldenTri + silverTri + chooseTri + centerofMass + symmetry + closePlane;

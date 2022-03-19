@@ -219,7 +219,7 @@ nedboyArray
 
 % Kode for å plotte 3D-figur
 noSec = 30;
-rad = 0.003; % Radius
-[Fp,Np] = mesh2openQuadPoly(E, N, rad, noSec, 'scaleSphere', 1.2);
+rad = 0.002; % Radius
+[Fp,Np] = mesh2openQuadPoly(E, T2, rad, noSec, 'scaleSphere', 1.2);
 clf; plotPoly(Fp,Np, 'edgeOff');
 
