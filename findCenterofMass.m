@@ -1,4 +1,4 @@
-% Funksjon for å finne tyngdepunkt
+ % Funksjon for å finne tyngdepunkt
 function centerofMass = findCenterofMass(T)
 
 topMiddle = (T(9,:) + T(10,:) + T(11,:) + T(12,:))/4;

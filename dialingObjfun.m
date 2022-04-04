@@ -1,6 +1,5 @@
 function dial = dialingObjfun(E,T,extC,extF,ned,lengthEdges,maxE,equi,gold,silver,tri,mass,sym,plane)
 
-
 ytre_trekanter = [1 5 6         % A
                   5 6 9         % B
                   6 9 10        % C

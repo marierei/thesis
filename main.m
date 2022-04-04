@@ -82,10 +82,10 @@ extF = [0 0 0   0 0 0
         0 0 0   0 0 0
         
         
-        0 12 20   0 0 0
-        0 12 20   0 0 0
-        0 12 20   0 0 0
-        0 12 20   0 0 0];
+        0 0 20   0 0 0
+        0 0 20   0 0 0
+        0 0 20   0 0 0
+        0 0 20   0 0 0];
 
 % Plotter mesh med nodenr, edgenr, constrainede noder og eksterne krefter
 %figure(1);
