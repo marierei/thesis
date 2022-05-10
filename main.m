@@ -206,7 +206,33 @@ plotMesh(E, T2, 'txt', 'col',[1 0 0], 'lThick',2); % Mesh med nodeforflytninger 
 hold on;
 
 
+ytre_trekanter = [1 5 6         % A
+                  5 6 9         % B
+                  6 9 10        % C
+                  4 6 8         % D
+                  6 8 12        % E
+                  6 10 12       % F
+                  3 7 8         % G
+                  7 8 12        % H
+                  7 11 12       % I
+                  3 5 7         % J
+                  5 7 9         % K
+                  7 9 11];      % L
 
+nedBoy = findNedBoy(E,T2,extC,extF)
+sumEdge = sum_edges(E,T2)
+maxEdge = maxEdgeLng(E,T2)
+
+equiTri = findOffsetEquiTri(T2,ytre_trekanter)
+goldenTri = findGoldenTriangle(T2,ytre_trekanter)
+silverTri = findSilverTriangle(T2,ytre_trekanter)
+chooseTri = chooseBestTriangle(T2,ytre_trekanter)
+
+centreofMass = findCenterofMass(T2)
+symmetry = findSymmetryOverMiddle(T2)
+closePlane = findPlane(T2)
+
+T2
 
 
 figure(3);

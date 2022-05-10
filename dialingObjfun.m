@@ -49,4 +49,4 @@ obj4 = pen1(angMin, minVinkelEdges, 300, 100);
 
 %dial = nedBoy + obj3 + obj4 + sumEdge + closePlane;
 %dial = nedBoy + sumEdge + maxEdge;
-dial = obj3 + obj4 + nedBoy + sumEdge + maxEdge + equiTri + goldenTri + silverTri + chooseTri + centerofMass + symmetry + closePlane;
+dial = obj3 + obj4 + nedBoy + sumEdge + maxEdge + goldenTri + silverTri + equiTri + chooseTri + centerofMass + symmetry + closePlane;

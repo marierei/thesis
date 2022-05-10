@@ -19,12 +19,14 @@ T(8,:) = x(4,:);
 ned = 1;
 lengthEdges = 0;
 maxE = 0;
-equi = 0;
+
 gold = 0;
-silver = 0;
-tri = 1;
+silver = 1;
+equi = 0;
+tri = 0;
+
 mass = 0;
-sym = 0;
+sym = 1;
 plane = 0;
 
 % maxE virker som et tåpelig og begrensende mål alene

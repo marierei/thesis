@@ -10,7 +10,7 @@ for e = 1 : size(E,1) % size(E,1) gir antall rader/edger
     
     lN = norm(xyzPosNode2 - xyzPosNode1); % Lengde på edge nr e
     
-    sum_edge = sum_edge + lN^2;
+    sum_edge = sum_edge + lN;
     
 end
 sum = sum_edge;
